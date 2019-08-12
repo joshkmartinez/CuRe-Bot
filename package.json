@@ -1,0 +1,30 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon bot.js",
+    "dev:site": "now dev",
+    "start": "node bot.js",
+    "deploy": "now deploy --target production"
+  },
+  "keywords": [
+    "discord bot",
+    "bot",
+    "discord"
+  ],
+  "author": "Joshua Martinez",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "discord.js": "^11.5.0",
+    "dotenv": "^8.0.0",
+    "mongodb": "^3.3.0-beta2"
+  },
+  "devDependencies": {
+    "micro-dev": "^3.0.0",
+    "now": "^15.6.0"
+  }
+}
