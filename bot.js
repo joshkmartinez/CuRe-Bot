@@ -40,17 +40,24 @@ bot.on("message", async message => {
   let args = message.content.split(" ");
   let command = args[0];
   if (command == config.prefix + "list") {
-    getCommands(message);
+    getTriggerList(message);
   }
 });
 
-//exit if 404
-async function getCommands(message) {
+async function getTriggerList(message) {
   let guild = message.guild.id;
   let list = [];
   axios
     .get(process.env.STORAGE_SERVICE + guild)
     .then(async function(response) {
+      if (JSON.stringify(response.data) == "{}") {
+        //no triggers set up
+        return await message.channel.send(
+          "This server currently does not have any message triggers set up. Run `" +
+            config.prefix +
+            "help` to see how to create one!"
+        );
+      }
       //compose array of all triggers
       for (i = 0; i < Object.keys(response.data).length; i++) {
         let j = Object.keys(response.data)[i];
@@ -106,6 +113,11 @@ bot.on("message", async message => {
         "**Deletes a trigger** from the server. To get the trigger's index, use the `*list` command.",
         true
       )
+      .addField(
+        config.prefix + "ping",
+        "Tells you what the bot's latency is. _If any_.",
+        true
+      )
       .setTimestamp()
       .setURL("https://github.com/joshkmartinez/CuRe-Bot")
       .setFooter("💙 CuRe Bot");
@@ -117,6 +129,7 @@ bot.on("message", async message => {
 //add trigger
 bot.on("message", async message => {
   if (message.author.bot) return;
+
   let prefix = config.prefix;
   let guild = message.guild.id;
   if (
@@ -132,19 +145,36 @@ bot.on("message", async message => {
         "You did not include an argument. Try again."
       );
     }
+    if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR")) {
+      return await message.channel.send(
+        "You need `Administrator` permissions in order to run this command."
+      );
+    }
 
     axios
       .get(process.env.STORAGE_SERVICE + guild)
       .then(async function(response) {
-        let before = JSON.stringify(response.data);
-        let after = JSON.parse(
-          before.substring(0, before.length - 1) +
-          ',"' +
-          content[0] + //trigger
-          '":"' +
-          content[1] + //response
-            '"}'
-        );
+        let after;
+        if (JSON.stringify(response.data) == "{}") {
+          after = JSON.parse(
+            '{"' +
+            content[0] + //trigger
+            '":"' +
+            content[1] + //response
+              '"}'
+          );
+        } else {
+          let before = JSON.stringify(response.data);
+
+          after = JSON.parse(
+            before.substring(0, before.length - 1) +
+            ',"' +
+            content[0] + //trigger
+            '":"' +
+            content[1] + //response
+              '"}'
+          );
+        }
         //pushes new trigger list
         axios
           .put(process.env.STORAGE_SERVICE + guild, after)
@@ -156,7 +186,9 @@ bot.on("message", async message => {
             );
           })
           .catch(async function(error) {
-            return console.log("Error adding new trigger.  \n" + error);
+            return await message.channel.send(
+              "Error adding new trigger.  \n" + error
+            );
           });
       })
       .catch(async function(error) {
@@ -170,6 +202,7 @@ bot.on("message", async message => {
 //remove trigger cmd
 bot.on("message", async message => {
   if (message.author.bot) return;
+
   let prefix = config.prefix;
   let guild = message.guild.id;
   let args = message.content.split(" ");
@@ -183,6 +216,11 @@ bot.on("message", async message => {
       );
 
       return;
+    }
+    if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR")) {
+      return await message.channel.send(
+        "You need `Administrator` permissions in order to run this command."
+      );
     }
     //check if number and if in bounds
     axios
@@ -206,7 +244,9 @@ bot.on("message", async message => {
             );
           })
           .catch(async function(error) {
-            return console.log("Error removing trigger.  \n" + error);
+            return await message.channel.send(
+              "Error removing trigger.  \n" + error
+            );
           });
       })
       .catch(async function(error) {
