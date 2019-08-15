@@ -181,29 +181,42 @@ bot.on("message", async message => {
               '"}'
           );
         }
-        //pushes new trigger list
-        axios
-          .put(process.env.STORAGE_SERVICE + guild, after)
-          .then(async function(response) {
-            await message.channel.send(
-              "Trigger added successfully. To see the new trigger list run `" +
-                config.prefix +
-                "list`."
-            );
-          })
-          .catch(async function(error) {
-            return await message.channel.send(
-              "Error adding new trigger.  \n" + error
-            );
-          });
+        pushNewTriggerList(message, after);
       })
       .catch(async function(error) {
-        return console.log(
+        console.log(
           "Error retrieving trigger list. Cannot add new trigger.  \n" + error
         );
+        //if not triggers exist bc of 404 error try again here
+        after = JSON.parse(
+          '{"' +
+          content[0] + //trigger
+          '":"' +
+          content[1] + //response
+            '"}'
+        );
+        pushNewTriggerList(message, after);
       });
   }
 });
+
+async function pushNewTriggerList(message, updatedList) {
+  let guild = message.guild.id;
+  axios
+    .put(process.env.STORAGE_SERVICE + guild, updatedList)
+    .then(async function(response) {
+      await message.channel.send(
+        "Trigger added successfully. To see the new trigger list run `" +
+          config.prefix +
+          "list`."
+      );
+    })
+    .catch(async function(error) {
+      return await message.channel.send(
+        "Error adding new trigger.  \n" + error
+      );
+    });
+}
 
 //remove trigger cmd
 bot.on("message", async message => {
