@@ -12,7 +12,7 @@ To invite the bot to your server, use this link: https://discordapp.com/api/oaut
 Commands:
  - `*help`
  - `*create your trigger - your response`
-    - This command creates a trigger. Whenever a user send a messages containing the "trigger" string, the bot will respond with the "response" string.
+    - This command creates a trigger. Whenever a user sends a message containing the "trigger" string, the bot will respond with the "response" string.
  - `*list`
     - Shows a list of the triggers and responses on the server.
  - `*delete index`
