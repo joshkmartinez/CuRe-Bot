@@ -241,7 +241,7 @@ bot.on("message", async message => {
         "You need `Administrator` permissions in order to run this command."
       );
     }
-    //check if number and if in bounds
+    //check if number and is in bounds
     axios
       .get(process.env.STORAGE_SERVICE + guild)
       .then(async function(response) {
@@ -253,20 +253,7 @@ bot.on("message", async message => {
         let remover = keys[args[1]];
         delete before[remover];
         //pushes new trigger list
-        axios
-          .put(process.env.STORAGE_SERVICE + guild, before)
-          .then(async function(response) {
-            await message.channel.send(
-              "Trigger deleted successfully. To see the new trigger list run `" +
-                config.prefix +
-                "list`."
-            );
-          })
-          .catch(async function(error) {
-            return await message.channel.send(
-              "Error removing trigger.  \n" + error
-            );
-          });
+        pushNewTriggerList(message, before);
       })
       .catch(async function(error) {
         return console.log(

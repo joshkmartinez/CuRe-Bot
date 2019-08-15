@@ -1,7 +1,7 @@
 {
   "name": "CuRe-Bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "CuRe Bot is a custom response bot for discord.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,8 +23,5 @@
     "discord.js": "^11.5.0",
     "dotenv": "^8.0.0"
   },
-  "devDependencies": {
-    "micro-dev": "^3.0.0",
-    "now": "^15.6.0"
-  }
+  "devDependencies": {}
 }
