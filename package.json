@@ -8,7 +8,8 @@
     "dev": "nodemon bot.js",
     "dev:site": "now dev",
     "start": "node bot.js",
-    "deploy": "now deploy --target production"
+    "deploy": "now deploy --target production",
+    "ready": "echo Ready."
   },
   "keywords": [
     "discord bot",
