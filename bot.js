@@ -76,7 +76,13 @@ async function getTriggerList(message) {
       message.channel.send(embed);
     })
     .catch(async function(error) {
-      await message.channel.send("Error retrieving trigger list. \n" + error);
+      //await message.channel.send("Error retrieving trigger list. \n" + error);
+      return await message.channel.send(
+        "This server currently does not have any message triggers set up. Run `" +
+          config.prefix +
+          "help` to see how to create one!"
+      );
+      //this could also be a real error...
     });
 }
 
