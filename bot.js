@@ -271,9 +271,11 @@ bot.on("message", async message => {
   axios
     .get(process.env.STORAGE_SERVICE + guild)
     .then(async function(response) {
+      //for every trigger
       for (i = 0; i < Object.keys(response.data).length; i++) {
         let trigger = Object.keys(response.data)[i];
-        if (message.content.toLowerCase().includes(trigger)) {
+        //if the message includes the trigger
+        if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
           await message.channel.send(response.data[trigger]);
         }
       }
