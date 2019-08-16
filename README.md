@@ -7,18 +7,24 @@ Just set up message triggers, and CuRe bot will faithfully respond.
 CuRe bot is designed and intended for support communities. Simply set a trigger (like: "open a ticket") and a response like "You can open a ticket with the `;;ticket open help` command).  
 Check out an example below!  
   
-To invite the bot to your server, use this link: https://discordapp.com/api/oauth2/authorize?client_id=592968118905733120&permissions=0&scope=bot
+To invite the bot to your server, go to this link: https://cure.now.sh
 
 Commands:
- - `*help`
- - `*create your trigger - your response`
+ - `?help`
+ - `?create your trigger - your response`
     - This command creates a trigger. Whenever a user sends a message containing the "trigger" string, the bot will respond with the "response" string.
- - `*list`
+ - `?list`
     - Shows a list of the triggers and responses on the server.
- - `*delete index`
-    - Deletes a trigger from the server. To get the trigger's index, use the `*list` command.
+ - `?delete index`
+    - Deletes a trigger from the server. To get the trigger's index, use the `?list` command.
+ - `?ping`
+
+Some notes:
+ - Messages sent by bots and messages containing the bot's prefix (which is `?` if you cannot already tell.) as the first character will not be searched for message triggers.
+ - Your messages are not saved by CuRe Bot in any way. Don't believe me? Take a look for yourself (https://github.com/joshkmartinez/CuRe-Bot).
 
 Here is an example of CuRe bot in action!  
 ![Example](https://media.giphy.com/media/j0B3l7xKAVezqvUShk/giphy.gif)  
+This was done with the following trigger & response.  
 Trigger: "open a ticket"  
 Response: "You can open a ticket with the `;;ticket open help` command  
