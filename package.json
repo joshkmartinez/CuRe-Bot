@@ -1,15 +1,11 @@
 {
   "name": "CuRe-Bot",
   "version": "1.0.0",
-  "description": "CuRe Bot is a custom response bot for discord.",
+  "description": "CuRe Bot is a custom response bot for discord. Invite it to your discord server at https://cure.now.sh",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon bot.js",
-    "dev:site": "now dev",
-    "start": "node bot.js",
-    "deploy": "now deploy --target production",
-    "ready": "echo Ready."
+    "start": "node bot.js"
   },
   "keywords": [
     "discord bot",
