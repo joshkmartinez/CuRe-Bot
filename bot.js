@@ -71,7 +71,7 @@ async function getTriggerList(message) {
         .setTimestamp()
         .setFooter("💙 CuRe Bot");
       for (i = 0; i < list.length; i++) {
-        embed.addField(list[i], "Index: " + i, true).addBlankField();
+        embed.addField(list[i], "Index: " + i, true); //.addBlankField();
       }
       message.channel.send(embed);
     })
@@ -101,28 +101,23 @@ bot.on("message", async message => {
 
       .addField(
         config.prefix + "help",
-        "Shows what you are looking at right now.",
-        true
+        "Shows what you are looking at right now."
       )
       .addField(
         config.prefix + "create your trigger - your response",
-        'This command **creates a trigger.** Whenever a user send a messages containing the "trigger" string, the bot will respond with the "response" string.',
-        true
+        'This command **creates a trigger.** Whenever a user send a messages containing the "trigger" string, the bot will respond with the "response" string.'
       )
       .addField(
         config.prefix + "list",
-        "Shows a **list of the triggers** and responses on the server.",
-        true
+        "Shows a **list of the triggers** and responses on the server."
       )
       .addField(
         config.prefix + "delete index",
-        "**Deletes a trigger** from the server. To get the trigger's index, use the `*list` command.",
-        true
+        "**Deletes a trigger** from the server. To get the trigger's index, use the `*list` command."
       )
       .addField(
         config.prefix + "ping",
-        "Tells you what the bot's latency is. _If any_.",
-        true
+        "Tells you the bot's latency the Discord API latency."
       )
       .setTimestamp()
       .setURL("https://github.com/joshkmartinez/CuRe-Bot")
@@ -252,7 +247,6 @@ bot.on("message", async message => {
         }
         let remover = keys[args[1]];
         delete before[remover];
-        //pushes new trigger list
         pushNewTriggerList(message, before);
       })
       .catch(async function(error) {
