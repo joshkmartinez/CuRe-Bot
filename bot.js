@@ -119,6 +119,14 @@ bot.on("message", async message => {
         config.prefix + "ping",
         "Tells you the bot's latency the Discord API latency."
       )
+      .addField(
+        "Please consider upvoting the bot on discordbots.org 😃",
+        "https://discordbots.org/bot/592968118905733120"
+      )
+      .addField(
+        "Bot invite link",
+        "https://cure.now.sh"
+      )
       .setTimestamp()
       .setURL("https://github.com/joshkmartinez/CuRe-Bot")
       .setFooter("💙 CuRe Bot");
