@@ -26,7 +26,7 @@ bot.on("ready", () => {
 bot.on("ready", async () => {
   console.log(`${bot.user.username} is now online.`);
   bot.user
-    .setActivity("your back. 😁", { type: "WATCHING" })
+    .setActivity("for ?help. 😁", { type: "WATCHING" })
     .then(presence =>
       console.log(
         `Activity set: ${presence.game ? presence.game.name : "none"}`
@@ -112,7 +112,7 @@ bot.on("message", async message => {
         "Shows a **list of the triggers** and responses on the server."
       )
       .addField(
-        config.prefix + "delete index",
+        config.prefix + "remove index",
         "**Deletes a trigger** from the server. To get the trigger's index, use the `*list` command."
       )
       .addField(
