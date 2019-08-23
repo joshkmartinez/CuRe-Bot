@@ -5,8 +5,6 @@ const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
 bot.login(process.env.BOT_TOKEN);
 
-//TODO: only change by admin role
-
 bot.on("ready", () => {
   // List servers the bot is connected to
   console.log("Servers:");
@@ -26,7 +24,7 @@ bot.on("ready", () => {
 bot.on("ready", async () => {
   console.log(`${bot.user.username} is now online.`);
   bot.user
-    .setActivity("for ?help. 😁", { type: "WATCHING" })
+    .setActivity("for ?help 😁", { type: "WATCHING" })
     .then(presence =>
       console.log(
         `Activity set: ${presence.game ? presence.game.name : "none"}`
@@ -113,20 +111,19 @@ bot.on("message", async message => {
       )
       .addField(
         config.prefix + "remove index",
-        "**Deletes a trigger** from the server. To get the trigger's index, use the `*list` command."
+        "**Deletes a trigger** from the server. To get the trigger's index, use the `" +
+          config.prefix +
+          "list` command."
       )
       .addField(
         config.prefix + "ping",
-        "Tells you the bot's latency the Discord API latency."
+        "Tells you the bot's latency and Discord's API latency."
       )
       .addField(
         "Please consider upvoting the bot on discordbots.org 😃",
         "https://discordbots.org/bot/592968118905733120"
       )
-      .addField(
-        "Bot invite link",
-        "https://cure.now.sh"
-      )
+      .addField("Bot invite link", "https://cure.now.sh")
       .setTimestamp()
       .setURL("https://github.com/joshkmartinez/CuRe-Bot")
       .setFooter("💙 CuRe Bot");
@@ -295,7 +292,7 @@ bot.on("message", async message => {
   if (command == `${config.prefix}ping`) {
     const m = await message.channel.send("Pong 🏓");
     m.edit(
-      `Pong 🏓 Latency is ${m.createdTimestamp -
+      `Pong 🏓\nBot latency is ${m.createdTimestamp -
         message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`
     );
   }
