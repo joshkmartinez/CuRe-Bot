@@ -99,10 +99,11 @@ async function getTriggerList(message) {
       for (i = 0; i < Object.keys(response.data).length; i++) {
         let j = Object.keys(response.data)[i];
 
-        list.push("TRIGGER:  " + j + "   ~   RESPONSE:  " + response.data[j]);
+        //list.push("TRIGGER:  " + j + "   ~   RESPONSE:  " + response.data[j]);
+        list.push("TRIGGER:  " + j + "\nRESPONSE:  " + response.data[j]);
       }
       //send embed of all triggers and indexes
-      const embed = new Discord.RichEmbed()
+      /*const embed = new Discord.RichEmbed()
         .setColor("#123456")
         .setTitle("**CuRe Bot Trigger List**")
         .setTimestamp()
@@ -110,7 +111,13 @@ async function getTriggerList(message) {
       for (i = 0; i < list.length; i++) {
         embed.addField(list[i], "Index: " + i, true); //.addBlankField();
       }
-      message.channel.send(embed);
+      message.channel.send(embed);*/
+      await message.channel.send("Here is a list of all the triggers I have saved for this server:");
+      await message.channel.send("Please be patient if your server has many triggers.");
+      for (i = 0; i < list.length; i++) {
+        await message.channel.send("Index: " + i + "\n" + list[i]);
+      }
+      return
     })
     .catch(async function(error) {
       //await message.channel.send("Error retrieving trigger list. \n" + error);
