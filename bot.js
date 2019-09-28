@@ -5,6 +5,9 @@ const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
 bot.login(process.env.BOT_TOKEN);
 
+const funCommandsEnabled = true;
+const enabled = true;
+
 bot.on("ready", () => {
   // List servers the bot is connected to
   console.log("Servers:");
@@ -21,6 +24,27 @@ bot.on("ready", () => {
   });
 });
 
+bot.on("message", async message => {
+  if (message.author.bot) return;
+  let args = message.content.split(" ");
+  let command = args[0];
+  if (command == config.prefix + "stats") {
+    let guildNum = 0;
+    let channelNum = 0;
+    let memberNum = 0;
+    bot.guilds.forEach(guild => {
+      guildNum++;
+      guild.channels.forEach(channel => {
+        channelNum++;
+      });
+      memberNum += guild.memberCount;
+    });
+    await message.channel.send(
+      "I help **" + memberNum + " users** in **" + guildNum + " servers!**"
+    );
+  }
+});
+
 bot.on("ready", async () => {
   console.log(`${bot.user.username} is now online.`);
   bot.user
@@ -31,6 +55,21 @@ bot.on("ready", async () => {
       )
     )
     .catch(console.error);
+});
+
+bot.on("message", async message => {
+  if (message.author.bot) return;
+  // Check if the bot's user was tagged in the message
+  if (message.content.includes(bot.user.toString())) {
+    // Send acknowledgement message
+    return await message.channel.send(
+      "Hey there! My prefix is `" +
+        config.prefix +
+        "`\nRun `" +
+        config.prefix +
+        "help` to see some of my commands!"
+    );
+  }
 });
 
 bot.on("message", async message => {
@@ -200,13 +239,19 @@ bot.on("message", async message => {
   }
 });
 
-async function pushNewTriggerList(message, updatedList) {
+async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
   let guild = message.guild.id;
   axios
     .put(process.env.STORAGE_SERVICE + guild, updatedList)
     .then(async function(response) {
-      await message.channel.send(
-        "Trigger added successfully. To see the new trigger list run `" +
+      let addOrDelete = "added";
+      if (removeTrigger) {
+        addOrDelete = "removed";
+      }
+      return await message.channel.send(
+        "Trigger " +
+          addOrDelete +
+          " successfully. To see the new trigger list run `" +
           config.prefix +
           "list`."
       );
@@ -252,7 +297,7 @@ bot.on("message", async message => {
         }
         let remover = keys[args[1]];
         delete before[remover];
-        pushNewTriggerList(message, before);
+        pushNewTriggerList(message, before, true);
       })
       .catch(async function(error) {
         return console.log(
@@ -262,27 +307,29 @@ bot.on("message", async message => {
   }
 });
 
-bot.on("message", async message => {
-  let guild = message.guild.id;
-  if (message.author.bot) return;
-  //do not look for triggers if message contains bot prefix
-  if (message.content.substring(0, 1) == config.prefix) return;
-  axios
-    .get(process.env.STORAGE_SERVICE + guild)
-    .then(async function(response) {
-      //for every trigger
-      for (i = 0; i < Object.keys(response.data).length; i++) {
-        let trigger = Object.keys(response.data)[i];
-        //if the message includes the trigger
-        if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
-          await message.channel.send(response.data[trigger]);
+if (enabled) {
+  bot.on("message", async message => {
+    let guild = message.guild.id;
+    if (message.author.bot) return;
+    //do not look for triggers if message contains bot prefix
+    if (message.content.substring(0, 1) == config.prefix) return;
+    axios
+      .get(process.env.STORAGE_SERVICE + guild)
+      .then(async function(response) {
+        //for every trigger
+        for (i = 0; i < Object.keys(response.data).length; i++) {
+          let trigger = Object.keys(response.data)[i];
+          //if the message includes the trigger
+          if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
+            await message.channel.send(response.data[trigger]);
+          }
         }
-      }
-    })
-    .catch(async function(error) {
-      console.log("Error retrieving trigger list. Cannot search. \n" + error);
-    });
-});
+      })
+      .catch(async function(error) {
+        console.log("Error retrieving trigger list. Cannot search. \n" + error);
+      });
+  });
+}
 
 bot.on("message", async message => {
   if (message.author.bot) return;
@@ -293,7 +340,33 @@ bot.on("message", async message => {
     const m = await message.channel.send("Pong 🏓");
     m.edit(
       `Pong 🏓\nBot latency is ${m.createdTimestamp -
-        message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`
+        message.createdTimestamp}ms. Discord API Latency is ${Math.round(
+        bot.ping
+      )}ms`
     );
   }
 });
+
+if (funCommandsEnabled) {
+  bot.on("message", async message => {
+    if (message.author.id != "581319977265790986") return;
+    let messageBody = message.content.split(" ");
+    let command = messageBody[0];
+
+    if (command == `${config.prefix}ban`) {
+      message.channel.send("User " + messageBody[1] + " has been banned.");
+    }
+  });
+
+  bot.on("message", async message => {
+    if (message.author.bot) return;
+    let messageBody = message.content.split(" ");
+    let command = messageBody[0];
+
+    if (command == `${config.prefix}mute`) {
+      message.channel.send(
+        "User " + messageBody[1] + " has muted for: " + messageBody[2]
+      );
+    }
+  });
+}
