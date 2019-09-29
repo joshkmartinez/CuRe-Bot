@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 const config = require("./config.json");
 const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
-bot.login(process.env.BOT_TOKEN);
+bot.login(process.env.bot_token);
 
 const funCommandsEnabled = true;
 const enabled = true;
@@ -77,7 +77,8 @@ bot.on("message", async message => {
   let args = message.content.split(" ");
   let command = args[0];
   if (command == config.prefix + "list") {
-    getTriggerList(message);
+    //getTriggerList(message);
+    message.channel.send("View this server's triggers at the following link:   https://cure.now.sh/triggers?guild="+message.guild.id)
   }
 });
 
@@ -85,7 +86,7 @@ async function getTriggerList(message) {
   let guild = message.guild.id;
   let list = [];
   axios
-    .get(process.env.STORAGE_SERVICE + guild)
+    .get(process.env.storage_service + guild)
     .then(async function(response) {
       if (JSON.stringify(response.data) == "{}") {
         //no triggers set up
@@ -112,12 +113,22 @@ async function getTriggerList(message) {
         embed.addField(list[i], "Index: " + i, true); //.addBlankField();
       }
       message.channel.send(embed);*/
-      await message.channel.send("Here is a list of all the triggers I have saved for this server:");
-      await message.channel.send("Please be patient if your server has many triggers.");
+      await message.channel.send(
+        "Here is a list of all the triggers I have saved for this server:"
+      );
+      await message.channel.send(
+        "Please be patient if your server has many triggers."
+      );
+      let messageLength = 0;
+      let messageChunk = 0;
       for (i = 0; i < list.length; i++) {
-        await message.channel.send("Index: " + i + "\n" + list[i]);
+        messageChunk += "Index: " + i + "\n" + list[i] + "\n\n";
+        //await message.channel.send("Index: " + i + "\n" + list[i]);
+        //every 3rd message
+        if (i % 3 == 0&&i!=0) {
+          await message.channel.send(messageChunk);
+        }
       }
-      return
     })
     .catch(async function(error) {
       //await message.channel.send("Error retrieving trigger list. \n" + error);
@@ -165,6 +176,7 @@ bot.on("message", async message => {
         config.prefix + "ping",
         "Tells you the bot's latency and Discord's API latency."
       )
+      .addField(config.prefix + "stats", "Shows bot usage statistics.")
       .addField(
         "Please consider upvoting the bot on discordbots.org 😃",
         "https://discordbots.org/bot/592968118905733120"
@@ -204,7 +216,7 @@ bot.on("message", async message => {
     }
 
     axios
-      .get(process.env.STORAGE_SERVICE + guild)
+      .get(process.env.storage_service + guild)
       .then(async function(response) {
         let after;
         if (JSON.stringify(response.data) == "{}") {
@@ -249,7 +261,7 @@ bot.on("message", async message => {
 async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
   let guild = message.guild.id;
   axios
-    .put(process.env.STORAGE_SERVICE + guild, updatedList)
+    .put(process.env.storage_service + guild, updatedList)
     .then(async function(response) {
       let addOrDelete = "added";
       if (removeTrigger) {
@@ -295,7 +307,7 @@ bot.on("message", async message => {
     }
     //check if number and is in bounds
     axios
-      .get(process.env.STORAGE_SERVICE + guild)
+      .get(process.env.storage_service + guild)
       .then(async function(response) {
         let before = response.data;
         let keys = Object.keys(response.data);
@@ -321,14 +333,14 @@ if (enabled) {
     //do not look for triggers if message contains bot prefix
     if (message.content.substring(0, 1) == config.prefix) return;
     axios
-      .get(process.env.STORAGE_SERVICE + guild)
+      .get(process.env.storage_service + guild)
       .then(async function(response) {
         //for every trigger
         for (i = 0; i < Object.keys(response.data).length; i++) {
           let trigger = Object.keys(response.data)[i];
           //if the message includes the trigger
           if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
-            await message.channel.send(response.data[trigger]);
+            return await message.channel.send(response.data[trigger]);
           }
         }
       })
