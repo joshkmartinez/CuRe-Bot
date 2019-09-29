@@ -1,3 +1,13 @@
+const http = require("http");
+const express = require("express");
+const app = express();
+var server = require("http").createServer(app);
+app.get("/", (request, response) => {
+  console.log("Ping recieved at " + Date.now());
+  response.sendStatus(200);
+});
+app.listen(3000);
+
 require("dotenv").config();
 const Discord = require("discord.js");
 const config = require("./config.json");
@@ -78,7 +88,10 @@ bot.on("message", async message => {
   let command = args[0];
   if (command == config.prefix + "list") {
     //getTriggerList(message);
-    message.channel.send("View this server's triggers at the following link:   https://cure.now.sh/triggers?guild="+message.guild.id)
+    message.channel.send(
+      "View this server's triggers at the following link:   https://cure.now.sh/triggers?guild=" +
+        message.guild.id
+    );
   }
 });
 
@@ -125,7 +138,7 @@ async function getTriggerList(message) {
         messageChunk += "Index: " + i + "\n" + list[i] + "\n\n";
         //await message.channel.send("Index: " + i + "\n" + list[i]);
         //every 3rd message
-        if (i % 3 == 0&&i!=0) {
+        if (i % 3 == 0 && i != 0) {
           await message.channel.send(messageChunk);
         }
       }
