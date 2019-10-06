@@ -87,72 +87,12 @@ bot.on("message", async message => {
   let args = message.content.split(" ");
   let command = args[0];
   if (command == config.prefix + "list") {
-    //getTriggerList(message);
     message.channel.send(
-      "View this server's triggers at the following link:   https://cure.now.sh/triggers?guild=" +
+      "View this server's triggers at the following link: https://cure.now.sh/triggers?guild=" +
         message.guild.id
     );
   }
 });
-
-async function getTriggerList(message) {
-  let guild = message.guild.id;
-  let list = [];
-  axios
-    .get(process.env.storage_service + guild)
-    .then(async function(response) {
-      if (JSON.stringify(response.data) == "{}") {
-        //no triggers set up
-        return await message.channel.send(
-          "This server currently does not have any message triggers set up. Run `" +
-            config.prefix +
-            "help` to see how to create one!"
-        );
-      }
-      //compose array of all triggers
-      for (i = 0; i < Object.keys(response.data).length; i++) {
-        let j = Object.keys(response.data)[i];
-
-        //list.push("TRIGGER:  " + j + "   ~   RESPONSE:  " + response.data[j]);
-        list.push("TRIGGER:  " + j + "\nRESPONSE:  " + response.data[j]);
-      }
-      //send embed of all triggers and indexes
-      /*const embed = new Discord.RichEmbed()
-        .setColor("#123456")
-        .setTitle("**CuRe Bot Trigger List**")
-        .setTimestamp()
-        .setFooter("💙 CuRe Bot");
-      for (i = 0; i < list.length; i++) {
-        embed.addField(list[i], "Index: " + i, true); //.addBlankField();
-      }
-      message.channel.send(embed);*/
-      await message.channel.send(
-        "Here is a list of all the triggers I have saved for this server:"
-      );
-      await message.channel.send(
-        "Please be patient if your server has many triggers."
-      );
-      let messageLength = 0;
-      let messageChunk = 0;
-      for (i = 0; i < list.length; i++) {
-        messageChunk += "Index: " + i + "\n" + list[i] + "\n\n";
-        //await message.channel.send("Index: " + i + "\n" + list[i]);
-        //every 3rd message
-        if (i % 3 == 0 && i != 0) {
-          await message.channel.send(messageChunk);
-        }
-      }
-    })
-    .catch(async function(error) {
-      //await message.channel.send("Error retrieving trigger list. \n" + error);
-      return await message.channel.send(
-        "This server currently does not have any message triggers set up. Run `" +
-          config.prefix +
-          "help` to see how to create one!"
-      );
-      //this could also be a real error...
-    });
-}
 
 bot.on("message", async message => {
   if (message.author.bot) return;
@@ -165,7 +105,7 @@ bot.on("message", async message => {
     const embed = new Discord.RichEmbed()
       .setColor("#123456")
       .setTitle("**CuRe Bot Trigger List**")
-      .setDescription("***Cu***stom ***Re***sponse Bot")
+      .setDescription("CuRe Bot is a ***Cu***stom ***Re***sponse Bot discord.")
 
       .addField(
         config.prefix + "help",
@@ -194,9 +134,10 @@ bot.on("message", async message => {
         "Please consider upvoting the bot on discordbots.org 😃",
         "https://discordbots.org/bot/592968118905733120"
       )
-      .addField("Bot invite link", "https://cure.now.sh")
+      .addField("Bot invite link", "https://cure.now.sh/invite")
+      .addField("Support server invite link", "https://cure.now.sh/server")
       .setTimestamp()
-      .setURL("https://github.com/joshkmartinez/CuRe-Bot")
+      .setURL("https://cure.now.sh")
       .setFooter("💙 CuRe Bot");
 
     message.channel.send(embed);
