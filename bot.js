@@ -90,7 +90,7 @@ bot.on("message", async message => {
   let command = args[0];
   if (command == config.prefix + "list") {
     message.channel.send(
-      "View this server's triggers at the following link: https://cure.now.sh/triggers?guild=" +
+      "View this server's triggers at the following link: https://curebot.dev/triggers?guild=" +
         message.guild.id
     );
   }
@@ -136,10 +136,10 @@ bot.on("message", async message => {
         "Please consider upvoting the bot on discordbots.org 😃",
         "https://discordbots.org/bot/592968118905733120"
       )
-      .addField("Bot invite link", "https://cure.now.sh/invite")
-      .addField("Support server invite link", "https://cure.now.sh/server")
+      .addField("Bot invite link", "https://curebot.dev/invite")
+      .addField("Support server invite link", "https://curebot.dev/server")
       .setTimestamp()
-      .setURL("https://cure.now.sh")
+      .setURL("https://curebot.dev")
       .setFooter("💙 CuRe Bot");
 
     message.channel.send(embed);

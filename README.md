@@ -8,7 +8,7 @@ Just set up message triggers, and CuRe bot will faithfully respond.
 CuRe bot is designed and intended for support communities. Simply set a trigger (like: "open a ticket") and a response like "You can open a ticket with the `;;ticket open help` command).  
 Check out an example below!
 
-To invite the bot to your server, go to this link: https://cure.now.sh
+To invite the bot to your server, go to this link: https://curebot.dev/invite
 
 Commands:
 
