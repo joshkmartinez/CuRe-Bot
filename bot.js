@@ -22,11 +22,8 @@ bot.on("ready", () => {
   // List servers the bot is connected to
   console.log("Servers:");
   bot.guilds.forEach(guild => {
-    console.log(" - " + guild.name);
+    console.log(" - " + guild.name + " (" + guild.id + ")");
     /*
-    console.log(" - " + guild.id);
-    console.log(" - " + guild);
-
     // List all channels
     guild.channels.forEach(channel => {
       console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`);
@@ -50,7 +47,13 @@ bot.on("message", async message => {
       memberNum += guild.memberCount;
     });
     await message.channel.send(
-      "I help **" + memberNum + " users** in **" + guildNum + " servers!**"
+      "I help **" +
+        memberNum +
+        " users** in **" +
+        channelNum +
+        " channels** of** " +
+        guildNum +
+        " servers!**"
     );
   }
 });
@@ -69,9 +72,8 @@ bot.on("ready", async () => {
 
 bot.on("message", async message => {
   if (message.author.bot) return;
-  // Check if the bot's user was tagged in the message
+  // Check if the bot was tagged in the message
   if (message.content.includes(bot.user.toString())) {
-    // Send acknowledgement message
     return await message.channel.send(
       "Hey there! My prefix is `" +
         config.prefix +
@@ -325,6 +327,20 @@ if (funCommandsEnabled) {
     if (message.author.id != "581319977265790986") return;
     let messageBody = message.content.split(" ");
     let command = messageBody[0];
+    let num = messageBody[1];
+    if (command == `${config.prefix}clear`) {
+      async function clear() {
+        message.delete();
+        const fetched = await message.channel.fetchMessages({ limit: num });
+        message.channel.bulkDelete(fetched);
+      }
+      clear();
+    }
+  });
+  bot.on("message", async message => {
+    if (message.author.id != "581319977265790986") return;
+    let messageBody = message.content.split(" ");
+    let command = messageBody[0];
 
     if (command == `${config.prefix}ban`) {
       message.channel.send("User " + messageBody[1] + " has been banned.");
@@ -332,7 +348,7 @@ if (funCommandsEnabled) {
   });
 
   bot.on("message", async message => {
-    if (message.author.bot) return;
+    if (message.author.id != "581319977265790986") return;
     let messageBody = message.content.split(" ");
     let command = messageBody[0];
 
