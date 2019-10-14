@@ -7,14 +7,13 @@ app.get("/", (request, response) => {
   response.sendStatus(200);
 });
 app.listen(3000);
-
 require("dotenv").config();
 const Discord = require("discord.js");
 const config = require("./config.json");
 const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
 bot.login(process.env.bot_token);
-
+bot.setMaxListeners(30)
 const funCommandsEnabled = true;
 const enabled = true;
 
@@ -131,10 +130,10 @@ bot.on("message", async message => {
         config.prefix + "ping",
         "Tells you the bot's latency and Discord's API latency."
       )
-      .addField(config.prefix + "stats", "Shows bot usage statistics.")
+      .addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
-        "Please consider upvoting the bot on discordbots.org 😃",
-        "https://discordbots.org/bot/592968118905733120"
+        "Please consider upvoting the bot on top.gg 😃",
+        "https://top.gg/bot/592968118905733120"
       )
       .addField("Bot invite link", "https://curebot.dev/invite")
       .addField("Support server invite link", "https://curebot.dev/server")
@@ -345,13 +344,6 @@ if (funCommandsEnabled) {
     if (command == `${config.prefix}ban`) {
       message.channel.send("User " + messageBody[1] + " has been banned.");
     }
-  });
-
-  bot.on("message", async message => {
-    if (message.author.id != "581319977265790986") return;
-    let messageBody = message.content.split(" ");
-    let command = messageBody[0];
-
     if (command == `${config.prefix}mute`) {
       message.channel.send(
         "User " + messageBody[1] + " has muted for: " + messageBody[2]
