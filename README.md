@@ -24,7 +24,7 @@ Commands:
 Some notes:
 
 - Messages sent by bots and messages containing the bot's prefix (which is `?` if you cannot already tell.) as the first character will not be searched for message triggers.
-- Your messages are not saved by CuRe Bot in any way. Don't believe me? Take a look at the code for yourself (https://github.com/joshkmartinez/CuRe-Bot).
+- Your messages are not saved by CuRe Bot in any way. Don't believe me? Take a look at [the code](https://github.com/joshkmartinez/CuRe-Bot) for yourself.
 
 Here is an example of CuRe bot in action!  
 ![Example](https://media.giphy.com/media/j0B3l7xKAVezqvUShk/giphy.gif)  
