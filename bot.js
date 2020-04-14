@@ -1,7 +1,5 @@
-const http = require("http");
 const express = require("express");
 const app = express();
-var server = require("http").createServer(app);
 app.get("/", (request, response) => {
   console.log("Ping recieved at " + Date.now());
   response.sendStatus(200);
@@ -13,8 +11,7 @@ const config = require("./config.json");
 const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
 bot.login(process.env.bot_token);
-bot.setMaxListeners(30)
-const funCommandsEnabled = true;
+bot.setMaxListeners(100)
 const enabled = true;
 
 bot.on("ready", () => {
@@ -320,34 +317,3 @@ bot.on("message", async message => {
     );
   }
 });
-
-if (funCommandsEnabled) {
-  bot.on("message", async message => {
-    if (message.author.id != "581319977265790986") return;
-    let messageBody = message.content.split(" ");
-    let command = messageBody[0];
-    let num = messageBody[1];
-    if (command == `${config.prefix}clear`) {
-      async function clear() {
-        message.delete();
-        const fetched = await message.channel.fetchMessages({ limit: num });
-        message.channel.bulkDelete(fetched);
-      }
-      clear();
-    }
-  });
-  bot.on("message", async message => {
-    if (message.author.id != "581319977265790986") return;
-    let messageBody = message.content.split(" ");
-    let command = messageBody[0];
-
-    if (command == `${config.prefix}ban`) {
-      message.channel.send("User " + messageBody[1] + " has been banned.");
-    }
-    if (command == `${config.prefix}mute`) {
-      message.channel.send(
-        "User " + messageBody[1] + " has muted for: " + messageBody[2]
-      );
-    }
-  });
-}
