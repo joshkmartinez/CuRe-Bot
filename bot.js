@@ -114,7 +114,7 @@ bot.on("message", async message => {
       )
       .addField(
         config.prefix + "create your trigger - your response",
-        'This command **creates a trigger.** Whenever a user send a messages containing the "trigger" string, the bot will respond with the "response" string.'
+        'This command **creates a trigger.** Whenever a user sends a messages containing the "trigger" string, the bot will respond with the "response" string. The trigger and response arguments are seperated by `-`'
       )
       .addField(
         config.prefix + "list",
@@ -128,7 +128,7 @@ bot.on("message", async message => {
       )
       .addField(
         config.prefix + "ping",
-        "Tells you the bot's latency and Discord's API latency."
+        "Tells you the bot's and Discord's API latency."
       )
       .addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
