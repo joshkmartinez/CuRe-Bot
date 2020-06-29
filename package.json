@@ -1,5 +1,5 @@
 {
-  "name": "CuRe-Bot",
+  "name": "cure-bot",
   "version": "1.0.0",
   "description": "CuRe Bot is a custom response bot for discord. Invite it to your discord server at https://cure.now.sh",
   "main": "index.js",
