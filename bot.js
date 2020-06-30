@@ -1,5 +1,6 @@
 require("dotenv").config();
 const Discord = require("discord.js");
+const Statcord = require("statcord.js");
 const config = require("./config.json");
 const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
@@ -7,10 +8,11 @@ bot.login(process.env.bot_token);
 bot.setMaxListeners(100)
 const enabled = true;
 
+const statcord = new Statcord.Client(process.env.statcord, bot);
+
 bot.on("ready", () => {
   // List servers the bot is connected to
-  console.log("Servers:");
-  bot.guilds.forEach(guild => {
+  bot.guilds.cache.map(guild => {
     console.log(" - " + guild.name + " (" + guild.id + ")");
     /*
     // List all channels
@@ -20,17 +22,33 @@ bot.on("ready", () => {
   });
 });
 
+bot.on("ready", async () => {
+  console.log("Ready.");
+  // Start auto posting
+  await statcord.post();
+  let initialPost = await statcord.autopost();
+
+  // If there is an error, console.error and exit
+  if (initialPost) {
+      console.error(initialPost);
+      process.exit();
+  }
+});
+
+
 bot.on("message", async message => {
+
   if (message.author.bot) return;
   let args = message.content.split(" ");
   let command = args[0];
   if (command == config.prefix + "stats") {
+    statcord.postCommand("stats", message.author.id);
     let guildNum = 0;
     let channelNum = 0;
     let memberNum = 0;
-    bot.guilds.forEach(guild => {
+    bot.guilds.cache.map(guild => {
       guildNum++;
-      guild.channels.forEach(channel => {
+      guild.channels.cache.map(channel => {
         channelNum++;
       });
       memberNum += guild.memberCount;
@@ -93,7 +111,8 @@ bot.on("message", async message => {
   let command = messageBody[0];
 
   if (command == `${prefix}help`) {
-    const embed = new Discord.RichEmbed()
+    statcord.postCommand("help", message.author.id);
+    const embed = new Discord.MessageEmbed()
       .setColor("#123456")
       .setTitle("**CuRe Bot Trigger List**")
       .setDescription("CuRe Bot is a ***Cu***stom ***Re***sponse Bot discord.")
@@ -122,8 +141,8 @@ bot.on("message", async message => {
       )
       .addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
-        "Please consider upvoting the bot on top.gg 😃",
-        "https://top.gg/bot/592968118905733120"
+        "Please consider upvoting the bot on discordbotlist.com 😃",
+        "https://discordbotlist.com/bots/cure"
       )
       .addField("Bot invite link", "https://curebot.dev/invite")
       .addField("Support server invite link", "https://curebot.dev/server")
@@ -145,6 +164,7 @@ bot.on("message", async message => {
     message.content.substring(0, prefix.length + "create".length) ==
     prefix + "create"
   ) {
+    statcord.postCommand("create", message.author.id);
     let content = message.content
       .substring(prefix.length + "create".length + 1)
       .split(" - ");
@@ -250,6 +270,7 @@ bot.on("message", async message => {
         "You need `Administrator` permissions in order to run this command."
       );
     }
+    statcord.postCommand("remove", message.author.id);
     //check if number and is in bounds
     axios
       .get(process.env.storage_service + guild)
@@ -301,6 +322,7 @@ bot.on("message", async message => {
   let command = messageBody[0];
 
   if (command == `${config.prefix}ping`) {
+    statcord.postCommand("ping", message.author.id);
     const m = await message.channel.send("Pong 🏓");
     m.edit(
       `Pong 🏓\nBot latency is ${m.createdTimestamp -
