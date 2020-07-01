@@ -28,10 +28,9 @@ bot.on("ready", async () => {
   await statcord.post();
   let initialPost = await statcord.autopost();
 
-  // If there is an error, console.error and exit
   if (initialPost) {
       console.error(initialPost);
-      process.exit();
+      //process.exit();
   }
 });
 
@@ -208,7 +207,7 @@ bot.on("message", async message => {
       })
       .catch(async function(error) {
         console.log(
-          "Error retrieving trigger list. Cannot add new trigger.  \n" + error
+          "Error retrieving trigger list. Cannot add new trigger.\n" + error
         );
         //if not triggers exist bc of 404 error try again here
         after = JSON.parse(
@@ -311,7 +310,7 @@ if (enabled) {
         }
       })
       .catch(async function(error) {
-        console.log("Error retrieving trigger list. Cannot search. \n" + error);
+        //console.log("Error retrieving trigger list. Cannot search. \n" + error);
       });
   });
 }
