@@ -80,7 +80,7 @@ bot.on("message", async message => {
   if (message.author.bot) return;
   // Check if the bot was tagged in the message
   if (message.content.includes(bot.user.toString())) {
-    return await message.channel.send(
+    return message.channel.send(
       "Hey there! My prefix is `" +
         config.prefix +
         "`\nRun `" +
@@ -156,7 +156,6 @@ bot.on("message", async message => {
 //add trigger
 bot.on("message", async message => {
   if (message.author.bot) return;
-
   let prefix = config.prefix;
   let guild = message.guild.id;
   if (
@@ -256,16 +255,16 @@ bot.on("message", async message => {
   let command = args[0];
   if (command == prefix + "remove") {
     if (args[1] == undefined || isNaN(args[1])) {
-      await message.channel.send(
+      return message.channel.send(
         "Include a trigger index to remove.\nTo see the trigger list run `" +
           config.prefix +
           "list`."
       );
 
-      return;
+   
     }
     if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR")) {
-      return await message.channel.send(
+      return message.channel.send(
         "You need `Administrator` permissions in order to run this command."
       );
     }
@@ -277,7 +276,7 @@ bot.on("message", async message => {
         let before = response.data;
         let keys = Object.keys(response.data);
         if (args[1] > keys.length - 1 || args[1] < 0) {
-          return await message.channel.send("Trigger index out of bounds.");
+          return message.channel.send("Trigger index out of bounds.");
         }
         let remover = keys[args[1]];
         delete before[remover];
