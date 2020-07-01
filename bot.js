@@ -305,7 +305,8 @@ if (enabled) {
           let trigger = Object.keys(response.data)[i];
           //if the message includes the trigger
           if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
-            return await message.channel.send(response.data[trigger]);
+            statcord.postCommand("RESPONSE", message.author.id);
+            return  message.channel.send(response.data[trigger]);
           }
         }
       })
