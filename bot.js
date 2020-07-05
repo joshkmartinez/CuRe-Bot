@@ -26,8 +26,12 @@ bot.on("ready", async () => {
   console.log("Ready.");
   //every hour
   setInterval(async () => {
-    await statcord.post();
-  }, 3600000);
+    try {
+      await statcord.post();
+    } catch (e) {
+      console.log("Failed to post to statcord.");
+    }
+  }, 3000);
 });
 
 bot.on("message", async (message) => {
@@ -35,7 +39,11 @@ bot.on("message", async (message) => {
   let args = message.content.split(" ");
   let command = args[0];
   if (command == config.prefix + "stats") {
-    statcord.postCommand("stats", message.author.id);
+    try {
+      statcord.postCommand("stats", message.author.id);
+    } catch (e) {
+      console.log("Failed to post command stats to statcord.");
+    }
     let guildNum = 0;
     let channelNum = 0;
     let memberNum = 0;
@@ -104,7 +112,11 @@ bot.on("message", async (message) => {
   let command = messageBody[0];
 
   if (command == `${prefix}help`) {
-    statcord.postCommand("help", message.author.id);
+    try {
+      statcord.postCommand("help", message.author.id);
+    } catch (e) {
+      console.log("Failed to post command stats to statcord");
+    }
     const embed = new Discord.MessageEmbed()
       .setColor("#123456")
       .setTitle("**CuRe Bot Trigger List**")
@@ -156,7 +168,11 @@ bot.on("message", async (message) => {
     message.content.substring(0, prefix.length + "create".length) ==
     prefix + "create"
   ) {
-    statcord.postCommand("create", message.author.id);
+    try {
+      statcord.postCommand("create", message.author.id);
+    } catch (e) {
+      console.log("Failed to post command stats to statcord");
+    }
     let content = message.content
       .substring(prefix.length + "create".length + 1)
       .split(" - ");
@@ -260,7 +276,11 @@ bot.on("message", async (message) => {
         "You need `Administrator` permissions in order to run this command."
       );
     }
-    statcord.postCommand("remove", message.author.id);
+    try {
+      statcord.postCommand("remove", message.author.id);
+    } catch (e) {
+      console.log("Failed to post command stats to statcord");
+    }
     //check if number and is in bounds
     axios
       .get(process.env.storage_service + guild)
@@ -296,7 +316,11 @@ if (enabled) {
           let trigger = Object.keys(response.data)[i];
           //if the message includes the trigger
           if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
-            statcord.postCommand("RESPONSE", message.author.id);
+            try {
+              statcord.postCommand("RESPONSE", message.author.id);
+            } catch (e) {
+              console.log("Failed to post command stats to statcord");
+            }
             return message.channel.send(response.data[trigger]);
           }
         }
@@ -313,7 +337,11 @@ bot.on("message", async (message) => {
   let command = messageBody[0];
 
   if (command == `${config.prefix}ping`) {
-    statcord.postCommand("ping", message.author.id);
+    try {
+      statcord.postCommand("ping", message.author.id);
+    } catch (e) {
+      console.log("Failed to post command stats to statcord");
+    }
     const m = await message.channel.send("Pong 🏓");
     m.edit(
       `Pong 🏓\nBot latency is ${
