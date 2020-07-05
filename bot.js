@@ -25,13 +25,13 @@ bot.on("ready", () => {
 bot.on("ready", async () => {
   console.log("Ready.");
   //every hour
-  setInterval(async () => {
-    try {
-      await statcord.post();
-    } catch (e) {
+  //setInterval(async () => {
+  //try {
+  await statcord.post();
+  /*} catch (e) {
       console.log("Failed to post to statcord.");
     }
-  }, 3000);
+  }, 3000);*/
 });
 
 bot.on("message", async (message) => {
