@@ -24,14 +24,14 @@ bot.on("ready", () => {
 
 bot.on("ready", async () => {
   console.log("Ready.");
-  //every hour
-  //setInterval(async () => {
-  //try {
-  await statcord.post();
-  /*} catch (e) {
-      console.log("Failed to post to statcord.");
-    }
-  }, 3000);*/
+  statcord.post();
+  let initalPost = await statcord.autopost();
+
+  // If there is an error, console.error and exit
+  if (initalPost) {
+    console.error(initalPost);
+    //process.exit();
+  }
 });
 
 bot.on("message", async (message) => {
