@@ -24,13 +24,11 @@ bot.on("ready", () => {
 
 bot.on("ready", async () => {
   console.log("Ready.");
-  statcord.post();
-  let initalPost = await statcord.autopost();
-
-  // If there is an error, console.error and exit
-  if (initalPost) {
-    console.error(initalPost);
-    //process.exit();
+  try {
+    await statcord.post();
+    await statcord.autopost();
+  } catch (e) {
+    console.log("Error posting.");
   }
 });
 
