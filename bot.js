@@ -111,7 +111,7 @@ bot.on("message", async (message) => {
 
   if (command == `${prefix}help`) {
     try {
-      statcord.postCommand("help", message.author.id);
+      await statcord.postCommand("help", message.author.id);
     } catch (e) {
       console.log("Failed to post command stats to statcord");
     }
@@ -167,7 +167,7 @@ bot.on("message", async (message) => {
     prefix + "create"
   ) {
     try {
-      statcord.postCommand("create", message.author.id);
+      await statcord.postCommand("create", message.author.id);
     } catch (e) {
       console.log("Failed to post command stats to statcord");
     }
@@ -275,7 +275,7 @@ bot.on("message", async (message) => {
       );
     }
     try {
-      statcord.postCommand("remove", message.author.id);
+      await statcord.postCommand("remove", message.author.id);
     } catch (e) {
       console.log("Failed to post command stats to statcord");
     }
@@ -315,7 +315,7 @@ if (enabled) {
           //if the message includes the trigger
           if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
             try {
-              statcord.postCommand("RESPONSE", message.author.id);
+              await statcord.postCommand("RESPONSE", message.author.id);
             } catch (e) {
               console.log("Failed to post command stats to statcord");
             }
@@ -336,7 +336,7 @@ bot.on("message", async (message) => {
 
   if (command == `${config.prefix}ping`) {
     try {
-      statcord.postCommand("ping", message.author.id);
+      await statcord.postCommand("ping", message.author.id);
     } catch (e) {
       console.log("Failed to post command stats to statcord");
     }
