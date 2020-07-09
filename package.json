@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon bot.js",
-    "start": "node bot.js"
+    "start": "forever start bot.js",
+    "stop": "forever stop bot.js",
+    "cleanlogs": "forever cleanlogs"
   },
   "keywords": [
     "discord bot",
@@ -20,5 +22,7 @@
     "dotenv": "^8.2.0",
     "statcord.js": "^2.2.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "forever": "^3.0.0"
+  }
 }
