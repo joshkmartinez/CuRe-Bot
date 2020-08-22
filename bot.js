@@ -144,8 +144,8 @@ bot.on("message", async (message) => {
       )
       .addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
-        "Please consider upvoting the bot on discordbotlist.com 😃",
-        "https://discordbotlist.com/bots/cure"
+        "Please consider upvoting the bot on top.gg 😃",
+        "https://top.gg/bot/592968118905733120"
       )
       .addField("Bot invite link", "https://curebot.dev/invite")
       .addField("Support server invite link", "https://curebot.dev/server")
