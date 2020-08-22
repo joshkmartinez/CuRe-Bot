@@ -79,7 +79,13 @@ bot.on("ready", async () => {
 bot.on("message", async (message) => {
   if (message.author.bot) return;
   // Check if the bot was tagged in the message
+
   if (message.content.includes(bot.user.toString())) {
+    try {
+      await statcord.postCommand("mentioned", message.author.id);
+    } catch (e) {
+      console.log("Failed to post command stats to statcord");
+    }
     return message.channel.send(
       "Hey there! My prefix is `" +
         config.prefix +
