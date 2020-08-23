@@ -17,12 +17,12 @@
   "author": "Joshua Martinez",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
-    "discord.js": "^12.2.0",
+    "axios": "^0.20.0",
+    "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
-    "statcord.js": "^2.2.3"
+    "statcord.js": "^2.2.4"
   },
   "devDependencies": {
-    "forever": "^3.0.0"
+    "forever": "^3.0.2"
   }
 }
