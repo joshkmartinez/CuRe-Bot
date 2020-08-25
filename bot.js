@@ -8,7 +8,10 @@ bot.login(process.env.bot_token);
 bot.setMaxListeners(100);
 const enabled = true;
 
-const statcord = new Statcord.Client(process.env.statcord, bot);
+const statcord = new Statcord.Client({
+  key: process.env.statcord,
+  client: bot,
+});
 
 bot.on("ready", () => {
   // List servers the bot is connected to
@@ -24,12 +27,16 @@ bot.on("ready", () => {
 
 bot.on("ready", async () => {
   console.log("Ready.");
-  try {
-    await statcord.post();
-    await statcord.autopost();
-  } catch (e) {
-    console.log("Error posting.");
-  }
+  await statcord.autopost();
+});
+
+statcord.on("autopost-start", () => {
+  console.log("Started statcord autopost.");
+});
+
+statcord.on("post", (status) => {
+  if (!status) console.log("Posted to statcord.");
+  else console.error(status);
 });
 
 bot.on("message", async (message) => {

@@ -20,7 +20,7 @@
     "axios": "^0.20.0",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
-    "statcord.js": "^2.2.4"
+    "statcord.js": "^3.0.3"
   },
   "devDependencies": {
     "forever": "^3.0.2",
