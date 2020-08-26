@@ -1,3 +1,6 @@
+const keepAlive = require("./server");
+keepAlive();
+
 require("dotenv").config();
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
