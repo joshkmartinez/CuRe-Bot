@@ -5,7 +5,7 @@ const config = require("./config.json");
 const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
 bot.login(process.env.bot_token);
-bot.setMaxListeners(100);
+
 const enabled = true;
 
 const statcord = new Statcord.Client({
