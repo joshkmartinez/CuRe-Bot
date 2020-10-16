@@ -21,10 +21,10 @@
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "statcord.js": "^3.0.3"
+    "statcord.js": "^3.1.1"
   },
   "devDependencies": {
     "forever": "^3.0.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.5"
   }
 }
