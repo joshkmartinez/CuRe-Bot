@@ -112,7 +112,7 @@ bot.on("message", async (message) => {
   let command = args[0];
   if (command == config.prefix + "list") {
     message.channel.send(
-      "View this server's triggers at the following link: https://curebot.dev/triggers?guild=" +
+      "View this server's triggers at the following link: https://cure.jkm.sh/triggers?guild=" +
         message.guild.id
     );
   }
@@ -163,10 +163,10 @@ bot.on("message", async (message) => {
         "Please consider upvoting the bot on top.gg 😃",
         "https://top.gg/bot/592968118905733120"
       )
-      .addField("Bot invite link", "https://curebot.dev/invite")
-      .addField("Support server invite link", "https://curebot.dev/server")
+      .addField("Bot invite link", "https://cure.jkm.sh/invite")
+      .addField("Support server invite link", "https://cure.jkm.sh/server")
       .setTimestamp()
-      .setURL("https://curebot.dev")
+      .setURL("https://cure.jkm.sh")
       .setFooter("💙 CuRe Bot");
 
     message.channel.send(embed);
