@@ -11,6 +11,9 @@ bot.login(process.env.bot_token);
 bot.setMaxListeners(100);
 const enabled = true;
 
+const permissionsError =
+  "You need `MANAGE_MESSAGES` permissions in order to run this command.";
+
 const statcord = new Statcord.Client({
   key: process.env.statcord,
   client: bot,
@@ -176,6 +179,13 @@ bot.on("message", async (message) => {
   }
 });
 
+const checkManageMessagePerms = (message) => {
+  if (!message.channel.permissionsFor(message.member).has("MANAGE_MESSAGES")) {
+    return true;
+  }
+  return false;
+};
+
 //add trigger
 bot.on("message", async (message) => {
   if (message.author.bot) return;
@@ -199,10 +209,9 @@ bot.on("message", async (message) => {
         "You did not include an argument. Try again."
       );
     }
-    if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR")) {
-      return await message.channel.send(
-        "You need `Administrator` permissions in order to run this command."
-      );
+
+    if (checkManageMessagePerms(message)) {
+      return message.channel.send(permissionsError);
     }
 
     axios
@@ -288,10 +297,8 @@ bot.on("message", async (message) => {
           "list`."
       );
     }
-    if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR")) {
-      return message.channel.send(
-        "You need `Administrator` permissions in order to run this command."
-      );
+    if (checkManageMessagePerms(message)) {
+      return message.channel.send(permissionsError);
     }
     try {
       await statcord.postCommand("remove", message.author.id);
