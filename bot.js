@@ -133,7 +133,7 @@ bot.on("message", async (message) => {
     }
     const embed = new Discord.MessageEmbed()
       .setColor("#123456")
-      .setTitle("**CuRe Bot Trigger List**")
+      .setTitle("**CuRe Bot**")
       .setDescription("CuRe Bot is a ***Cu***stom ***Re***sponse Bot discord.")
 
       .addField(
@@ -160,11 +160,14 @@ bot.on("message", async (message) => {
       )
       .addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
-        "Please consider upvoting the bot on top.gg 😃",
-        "https://top.gg/bot/592968118905733120"
+        "Like CuRe?",
+        "[Consider upvoting CuRe](https://top.gg/bot/592968118905733120)\n[Inviting the bot to your own server!](https://cure.jkm.sh/invite)\nOr [supporting development on patreon](https://www.patreon.com/jokur) 😃"
       )
-      .addField("Bot invite link", "https://cure.jkm.sh/invite")
-      .addField("Support server invite link", "https://cure.jkm.sh/server")
+
+      .addField(
+        "Need help?",
+        "Join the [CuRe Bot Support Server](https://cure.jkm.sh/server)"
+      )
       .setTimestamp()
       .setURL("https://cure.jkm.sh")
       .setFooter("💙 CuRe Bot");
@@ -209,9 +212,9 @@ bot.on("message", async (message) => {
         if (JSON.stringify(response.data) == "{}") {
           after = JSON.parse(
             '{"' +
-            content[0] + //trigger
-            '":"' +
-            content[1] + //response
+              content[0] + //trigger
+              '":"' +
+              content[1] + //response
               '"}'
           );
         } else {
@@ -219,10 +222,10 @@ bot.on("message", async (message) => {
 
           after = JSON.parse(
             before.substring(0, before.length - 1) +
-            ',"' +
-            content[0] + //trigger
-            '":"' +
-            content[1] + //response
+              ',"' +
+              content[0] + //trigger
+              '":"' +
+              content[1] + //response
               '"}'
           );
         }
@@ -235,9 +238,9 @@ bot.on("message", async (message) => {
         //if not triggers exist bc of 404 error try again here
         after = JSON.parse(
           '{"' +
-          content[0] + //trigger
-          '":"' +
-          content[1] + //response
+            content[0] + //trigger
+            '":"' +
+            content[1] + //response
             '"}'
         );
         pushNewTriggerList(message, after);
