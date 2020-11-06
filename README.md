@@ -3,12 +3,17 @@
 ### **Cu**stom **Re**sponse Bot
 
 CuRe your FAQs with CuRe Bot!  
-CuRe Bot is a custom response bot for discord (similar to slackbot's custom responses 😄).  
-Just set up message triggers, and CuRe bot will faithfully respond.  
-CuRe bot is designed and intended for support communities. Simply set a trigger (like: "open a ticket") and a response like "You can open a ticket with the `;;ticket open help` command).  
-Check out an example below!
+CuRe Bot is a custom response bot for discord.  
+Just set up message triggers, and CuRe Bot will faithfully respond.  
+CuRe bot is designed and intended for support communities.
 
-To invite the bot to your server, go to this link: https://cure.jkm.sh/invite
+Example:
+Trigger: "open a ticket"  
+Response: "You can open by running \`-ticket open help\`."  
+Bot command: ```?create open a ticket - You can open by running `-ticket open help`.```  
+Check out the bot in action below!
+
+To invite the bot to your server, [click here!](https://cure.jkm.sh/invite)
 
 Commands:
 
@@ -21,13 +26,11 @@ Commands:
   - Deletes a trigger from the server. To get the trigger's index, use the `?list` command.
 - `?ping`
 
-Some notes:
 
-- Messages sent by bots and messages containing the bot's prefix (which is `?` if you cannot already tell.) as the first character will not be searched for message triggers.
-- Your messages are not saved by CuRe Bot in any way. Don't believe me? Take a look at [the code](https://github.com/joshkmartinez/CuRe-Bot) for yourself.
+Your messages are not saved by CuRe Bot in any way. Don't believe me? Take a look at [the code](https://github.com/joshkmartinez/CuRe-Bot) for yourself.
 
-Here is an example of CuRe bot in action!  
-![Example](https://media.giphy.com/media/j0B3l7xKAVezqvUShk/giphy.gif)  
-This was done with the following trigger & response.  
+Here is CuRe Bot in action!  
+![Example](https://doggo.ninja/OQkE4N.gif)  
+This was done with the following trigger and response:  
 Trigger: "open a ticket"  
-Response: "You can open a ticket with the `;;ticket open help` command
+Response: "You can open by running \`-ticket open help\`."  
