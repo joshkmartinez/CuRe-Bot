@@ -134,7 +134,7 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "create your trigger - your response",
-        'This command **creates a trigger.** Whenever a user sends a messages containing the "trigger" string, the bot will respond with the "response" string. The trigger and response arguments are seperated by `-`'
+        'This command **creates a trigger.** Whenever a user sends a messages containing the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`'
       )
       .addField(
         config.prefix + "list",
@@ -150,7 +150,7 @@ bot.on("message", async (message) => {
         config.prefix + "ping",
         "Tells you the bot's and Discord's API latency."
       )
-      .addField(config.prefix + "stats", "Shows the bot's usage statistics.")
+      //.addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
         "Like CuRe?",
         "[Consider upvoting CuRe](https://top.gg/bot/592968118905733120)\n[Inviting the bot to your own server!](https://cure.jkm.sh/invite)\nOr [supporting development on patreon](https://www.patreon.com/jokur) 😃"
