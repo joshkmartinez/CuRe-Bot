@@ -19,20 +19,9 @@ const statcord = new Statcord.Client({
   client: bot,
 });
 
-bot.on("ready", () => {
-  // List servers the bot is connected to
-  bot.guilds.cache.map((guild) => {
-    console.log(" - " + guild.name + " (" + guild.id + ")");
-    /*
-    // List all channels
-    guild.channels.forEach(channel => {
-      console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`);
-    });*/
-  });
-});
-
 bot.on("ready", async () => {
   console.log("Ready.");
+  console.log("CuRe is in " + bot.guilds.cache.size + " guilds.");
   await statcord.autopost();
 });
 
