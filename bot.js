@@ -1,5 +1,5 @@
 const keepAlive = require("./server");
-keepAlive();
+//keepAlive();
 
 require("dotenv").config();
 const Discord = require("discord.js");
