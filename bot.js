@@ -134,7 +134,7 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "create your trigger - your response",
-        'This command **creates a trigger.** Whenever a user sends a messages containing the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`'
+        "This command **creates a trigger.** Whenever a user sends a messages containing the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
       )
       .addField(
         config.prefix + "list",
@@ -192,7 +192,6 @@ bot.on("message", async (message) => {
     let content = message.content
       .substring(prefix.length + "create".length + 1)
       .split(" - ");
-
     if (content.length < 2) {
       return await message.channel.send(
         "You did not include an argument. Try again."
@@ -217,7 +216,6 @@ bot.on("message", async (message) => {
           );
         } else {
           let before = JSON.stringify(response.data);
-
           after = JSON.parse(
             before.substring(0, before.length - 1) +
               ',"' +
@@ -260,7 +258,7 @@ async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
           addOrDelete +
           " successfully. To see the new trigger list run `" +
           config.prefix +
-          "list`."
+          "list`.\nIt will take up to 30 seconds for the new commands to work."
       );
     })
     .catch(async function (error) {
