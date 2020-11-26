@@ -7,6 +7,7 @@ const Statcord = require("statcord.js");
 const config = require("./config.json");
 const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
+var cache = require("memory-cache");
 bot.login(process.env.bot_token);
 bot.setMaxListeners(100);
 const enabled = true;
@@ -21,8 +22,17 @@ const statcord = new Statcord.Client({
 
 bot.on("ready", async () => {
   console.log("Ready.");
-  console.log("CuRe is in " + bot.guilds.cache.size + " guilds.");
+  console.log("CuRe is now online in " + bot.guilds.cache.size + " guilds.");
   await statcord.autopost();
+
+  bot.user
+    .setActivity("for ?help", { type: "WATCHING" })
+    .then((presence) =>
+      console.log(
+        `Activity set: ${presence.game ? presence.game.name : "none"}`
+      )
+    )
+    .catch(console.error);
 });
 
 statcord.on("autopost-start", () => {
@@ -66,22 +76,9 @@ bot.on("message", async (message) => {
   }
 });
 
-bot.on("ready", async () => {
-  console.log(`${bot.user.username} is now online.`);
-  bot.user
-    .setActivity("for ?help 😁", { type: "WATCHING" })
-    .then((presence) =>
-      console.log(
-        `Activity set: ${presence.game ? presence.game.name : "none"}`
-      )
-    )
-    .catch(console.error);
-});
-
+// Check if the bot was tagged in the message
 bot.on("message", async (message) => {
   if (message.author.bot) return;
-  // Check if the bot was tagged in the message
-
   if (message.content.includes(bot.user.toString())) {
     try {
       await statcord.postCommand("mentioned", message.author.id);
@@ -100,19 +97,6 @@ bot.on("message", async (message) => {
 
 bot.on("message", async (message) => {
   if (message.author.bot) return;
-  let args = message.content.split(" ");
-  let command = args[0];
-  if (command == config.prefix + "list") {
-    message.channel.send(
-      "View this server's triggers at the following link: https://cure.jkm.sh/triggers?guild=" +
-        message.guild.id
-    );
-  }
-});
-
-bot.on("message", async (message) => {
-  if (message.author.bot) return;
-
   let prefix = config.prefix;
   let messageBody = message.content.split(" ");
   let command = messageBody[0];
@@ -126,7 +110,9 @@ bot.on("message", async (message) => {
     const embed = new Discord.MessageEmbed()
       .setColor("#123456")
       .setTitle("**CuRe Bot**")
-      .setDescription("CuRe Bot is a ***Cu***stom ***Re***sponse Bot for discord.")
+      .setDescription(
+        "CuRe Bot is a ***Cu***stom ***Re***sponse Bot for discord."
+      )
 
       .addField(
         config.prefix + "help",
@@ -164,7 +150,24 @@ bot.on("message", async (message) => {
       .setURL("https://cure.jkm.sh")
       .setFooter("💙 CuRe Bot");
 
-    message.channel.send(embed);
+    return message.channel.send(embed);
+  } else if (command == config.prefix + "list") {
+    return message.channel.send(
+      "View this server's triggers at the following link: https://cure.jkm.sh/triggers?guild=" +
+        message.guild.id
+    );
+  } else if (command == `${config.prefix}ping`) {
+    try {
+      await statcord.postCommand("ping", message.author.id);
+    } catch (e) {
+      console.log("Failed to post command stats to statcord");
+    }
+    const m = await message.channel.send("Pong 🏓");
+    m.edit(
+      `Pong 🏓\nBot latency is ${
+        m.createdTimestamp - message.createdTimestamp
+      }ms. Discord API Latency is ${bot.ws.ping}ms`
+    );
   }
 });
 
@@ -313,12 +316,13 @@ bot.on("message", async (message) => {
   }
 });
 
+//message trigger functionality
 if (enabled) {
   bot.on("message", async (message) => {
-    let guild = message.guild.id;
-    if (message.author.bot) return;
+    const guild = message.guild.id;
     //do not look for triggers if message contains bot prefix
-    if (message.content.substring(0, 1) == config.prefix) return;
+    if (message.author.bot || message.content.substring(0, 1) == config.prefix)
+      return;
     axios
       .get(process.env.storage_service + guild)
       .then(async function (response) {
@@ -341,23 +345,3 @@ if (enabled) {
       });
   });
 }
-
-bot.on("message", async (message) => {
-  if (message.author.bot) return;
-  let messageBody = message.content.split(" ");
-  let command = messageBody[0];
-
-  if (command == `${config.prefix}ping`) {
-    try {
-      await statcord.postCommand("ping", message.author.id);
-    } catch (e) {
-      console.log("Failed to post command stats to statcord");
-    }
-    const m = await message.channel.send("Pong 🏓");
-    m.edit(
-      `Pong 🏓\nBot latency is ${
-        m.createdTimestamp - message.createdTimestamp
-      }ms. Discord API Latency is ${bot.ws.ping}ms`
-    );
-  }
-});
