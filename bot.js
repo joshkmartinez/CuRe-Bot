@@ -126,7 +126,7 @@ bot.on("message", async (message) => {
     const embed = new Discord.MessageEmbed()
       .setColor("#123456")
       .setTitle("**CuRe Bot**")
-      .setDescription("CuRe Bot is a ***Cu***stom ***Re***sponse Bot discord.")
+      .setDescription("CuRe Bot is a ***Cu***stom ***Re***sponse Bot for discord.")
 
       .addField(
         config.prefix + "help",
