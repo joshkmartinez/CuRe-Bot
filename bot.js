@@ -9,7 +9,8 @@ const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
 var cache = require("memory-cache");
 bot.login(process.env.bot_token);
-bot.setMaxListeners(100);
+//bot.setMaxListeners(100);
+
 const enabled = true;
 
 const permissionsError =
@@ -261,7 +262,7 @@ async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
           addOrDelete +
           " successfully. To see the new trigger list run `" +
           config.prefix +
-          "list`.\nIt will take up to 30 seconds for the new commands to work."
+          "list`.\nIt will take up to 30 seconds for the updated trigger list to take effect."
       );
     })
     .catch(async function (error) {
@@ -316,32 +317,46 @@ bot.on("message", async (message) => {
   }
 });
 
+const triggerCheck = async (message, triggers) => {
+  for (i = 0; i < Object.keys(triggers).length; i++) {
+    let trigger = Object.keys(triggers)[i];
+    if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
+      try {
+        await statcord.postCommand("RESPONSE", message.author.id);
+      } catch (e) {
+        console.log("Failed to post command stats to statcord");
+      }
+      return message.channel.send(triggers[trigger]);
+    }
+  }
+};
+
 //message trigger functionality
 if (enabled) {
   bot.on("message", async (message) => {
     const guild = message.guild.id;
-    //do not look for triggers if message contains bot prefix
-    if (message.author.bot || message.content.substring(0, 1) == config.prefix)
+    //ignore if bot or if prefixed
+    if (
+      message.author.bot ||
+      message.content.substring(0, 1) == config.prefix
+    ) {
       return;
-    axios
-      .get(process.env.storage_service + guild)
-      .then(async function (response) {
-        //for every trigger
-        for (i = 0; i < Object.keys(response.data).length; i++) {
-          let trigger = Object.keys(response.data)[i];
-          //if the message includes the trigger
-          if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
-            try {
-              await statcord.postCommand("RESPONSE", message.author.id);
-            } catch (e) {
-              console.log("Failed to post command stats to statcord");
-            }
-            return message.channel.send(response.data[trigger]);
-          }
-        }
-      })
-      .catch(async function (error) {
-        //console.log("Error retrieving trigger list. Cannot search. \n" + error);
-      });
+    }
+
+    if (cache.get(guild)) {
+      console.log("in cache")
+      return triggerCheck(message, cache.get(guild));
+    } else {
+      //guild not in cache
+      await axios
+        .get(process.env.storage_service + guild)
+        .then(async function (response) {
+          cache.put(guild, response.data, 30000);
+          return triggerCheck(message, cache.get(guild));
+        })
+        .catch(async function (error) {
+          //console.log("Error fetching trigger list. Cannot put into cache.);
+        });
+    }
   });
 }
