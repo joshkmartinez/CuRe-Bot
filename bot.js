@@ -98,11 +98,10 @@ bot.on("message", async (message) => {
 
 bot.on("message", async (message) => {
   if (message.author.bot) return;
-  let prefix = config.prefix;
   let messageBody = message.content.split(" ");
   let command = messageBody[0];
 
-  if (command == `${prefix}help`) {
+  if (command == `${config.prefix}help`) {
     try {
       await statcord.postCommand("help", message.author.id);
     } catch (e) {
@@ -182,11 +181,10 @@ const checkManageMessagePerms = (message) => {
 //add trigger
 bot.on("message", async (message) => {
   if (message.author.bot) return;
-  let prefix = config.prefix;
-  let guild = message.guild.id;
+  const guild = message.guild.id;
   if (
-    message.content.substring(0, prefix.length + "create".length) ==
-    prefix + "create"
+    message.content.substring(0, config.prefix.length + "create".length) ==
+    config.prefix + "create"
   ) {
     try {
       await statcord.postCommand("create", message.author.id);
@@ -194,7 +192,7 @@ bot.on("message", async (message) => {
       console.log("Failed to post command stats to statcord");
     }
     let content = message.content
-      .substring(prefix.length + "create".length + 1)
+      .substring(config.prefix.length + "create".length + 1)
       .split(" - ");
     if (content.length < 2) {
       return await message.channel.send(
@@ -249,7 +247,7 @@ bot.on("message", async (message) => {
 });
 
 async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
-  let guild = message.guild.id;
+  const guild = message.guild.id;
   axios
     .put(process.env.storage_service + guild, updatedList)
     .then(async function (response) {
@@ -275,16 +273,14 @@ async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
 //remove trigger cmd
 bot.on("message", async (message) => {
   if (message.author.bot) return;
-
-  let prefix = config.prefix;
-  let guild = message.guild.id;
-  let args = message.content.split(" ");
+  const guild = message.guild.id;
+  const args = message.content.split(" ");
   let command = args[0];
-  if (command == prefix + "remove") {
+  if (command == config.prefix + "remove") {
     if (args[1] == undefined || isNaN(args[1])) {
       return message.channel.send(
         "Include a trigger index to remove.\nTo see the trigger list run `" +
-          config.prefix +
+          config.config.prefix +
           "list`."
       );
     }
@@ -344,7 +340,6 @@ if (enabled) {
     }
 
     if (cache.get(guild)) {
-      console.log("in cache");
       return triggerCheck(message, cache.get(guild));
     } else {
       //guild not in cache
