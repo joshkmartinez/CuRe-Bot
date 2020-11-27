@@ -109,7 +109,7 @@ bot.on("message", async (message) => {
       console.log("Failed to post command stats to statcord");
     }
     const embed = new Discord.MessageEmbed()
-      .setColor("#123456")
+      .setColor("#2F3136")
       .setTitle("**CuRe Bot**")
       .setDescription(
         "CuRe Bot is a ***Cu***stom ***Re***sponse Bot for discord."
@@ -120,7 +120,7 @@ bot.on("message", async (message) => {
         "Shows what you are looking at right now."
       )
       .addField(
-        config.prefix + "create your trigger - your response",
+        config.prefix + "create [your trigger] - [your response]",
         "This command **creates a trigger.** Whenever a user sends a messages containing the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
       )
       .addField(
@@ -128,7 +128,7 @@ bot.on("message", async (message) => {
         "Shows a **list of the triggers** and responses on the server."
       )
       .addField(
-        config.prefix + "remove index",
+        config.prefix + "remove [index]",
         "**Deletes a trigger** from the server. To get the trigger's index, use the `" +
           config.prefix +
           "list` command."
@@ -140,7 +140,7 @@ bot.on("message", async (message) => {
       //.addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
         "Like CuRe?",
-        "[Consider upvoting CuRe](https://top.gg/bot/592968118905733120)\n[Inviting the bot to your own server!](https://cure.jkm.sh/invite)\nOr [supporting development on patreon](https://www.patreon.com/jokur) 😃"
+        "[Consider upvoting CuRe](https://top.gg/bot/592968118905733120/vote)\n[Inviting the bot to your own server!](https://cure.jkm.sh/invite)\nOr [supporting development on patreon](https://www.patreon.com/jokur) 😃"
       )
 
       .addField(
@@ -344,7 +344,7 @@ if (enabled) {
     }
 
     if (cache.get(guild)) {
-      console.log("in cache")
+      console.log("in cache");
       return triggerCheck(message, cache.get(guild));
     } else {
       //guild not in cache
