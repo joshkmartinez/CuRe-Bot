@@ -123,13 +123,13 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "list",
-        "Shows a **list of the triggers** and responses on the server."
+        "Displays the server's **list of triggers**."
       )
       .addField(
         config.prefix + "remove [index]",
-        "**Deletes a trigger** from the server. To get the trigger's index, use the `" +
+        "**Deletes a trigger.**\nTo get the trigger's index, run `" +
           config.prefix +
-          "list` command."
+          "list`."
       )
       .addField(
         config.prefix + "ping",
