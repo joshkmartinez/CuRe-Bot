@@ -1,4 +1,4 @@
-const keepAlive = require("./server");
+//const keepAlive = require("./server");
 //keepAlive();
 
 require("dotenv").config();
@@ -9,7 +9,6 @@ const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
 var cache = require("memory-cache");
 bot.login(process.env.bot_token);
-//bot.setMaxListeners(100);
 
 const enabled = true;
 
@@ -260,7 +259,7 @@ async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
           addOrDelete +
           " successfully. To see the new trigger list run `" +
           config.prefix +
-          "list`.\nIt will take up to 30 seconds for the updated trigger list to take effect."
+          "list`.\nIt will take up to 45 seconds for the updated trigger list to take effect."
       );
     })
     .catch(async function (error) {
@@ -346,7 +345,7 @@ if (enabled) {
       await axios
         .get(process.env.storage_service + guild)
         .then(async function (response) {
-          cache.put(guild, response.data, 30000);
+          cache.put(guild, response.data, 45000);
           return triggerCheck(message, cache.get(guild));
         })
         .catch(async function (error) {
