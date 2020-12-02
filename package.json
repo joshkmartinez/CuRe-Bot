@@ -1,19 +1,16 @@
 {
   "name": "cure-bot",
   "version": "1.0.0",
-  "description": "CuRe Bot is a custom response bot for discord. Invite it to your discord server at https://cure.now.sh",
-  "main": "index.js",
+  "description": "CuRe Bot is a custom response bot for discord.",
+  "main": "bot.js",
   "scripts": {
     "dev": "nodemon bot.js",
     "start": "forever start bot.js",
     "stop": "forever stop bot.js",
+    "list": "forever list",
+    "stopall": "forever stopall",
     "cleanlogs": "forever cleanlogs"
   },
-  "keywords": [
-    "discord bot",
-    "bot",
-    "discord"
-  ],
   "author": "Joshua Martinez",
   "license": "MIT",
   "dependencies": {
