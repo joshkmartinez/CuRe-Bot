@@ -276,10 +276,10 @@ bot.on("message", async (message) => {
   const args = message.content.split(" ");
   let command = args[0];
   if (command == config.prefix + "remove") {
-    if (args[1] == undefined || isNaN(args[1])) {
+    if (args[1] == null || isNaN(args[1])) {
       return message.channel.send(
         "Include a trigger index to remove.\nTo see the trigger list run `" +
-          config.config.prefix +
+          config.prefix +
           "list`."
       );
     }
@@ -298,7 +298,9 @@ bot.on("message", async (message) => {
         let before = response.data;
         let keys = Object.keys(response.data);
         if (args[1] > keys.length - 1 || args[1] < 0) {
-          return message.channel.send("Trigger index out of bounds.");
+          return message.channel.send("Trigger index out of bounds.\nTo see the trigger list run `" +
+          config.prefix +
+          "list`.");
         }
         let remover = keys[args[1]];
         delete before[remover];
