@@ -275,7 +275,7 @@ bot.on("message", async (message) => {
   const guild = message.guild.id;
   const args = message.content.split(" ");
   let command = args[0];
-  if (command == config.prefix + "remove") {
+  if (command == config.prefix + "remove" || command == config.prefix + "delete") {
     if (args[1] == null || isNaN(args[1])) {
       return message.channel.send(
         "Include a trigger index to remove.\nTo see the trigger list run `" +
