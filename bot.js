@@ -110,12 +110,12 @@ bot.on("message", async (message) => {
       .setColor("#2F3136")
       .setTitle("**CuRe Bot**")
       .setDescription(
-        "CuRe Bot is a ***Cu***stom ***Re***sponse Bot for discord."
+        "CuRe Bot is a ***Cu***stom ***Re***sponse Bot for Discord."
       )
 
       .addField(
         config.prefix + "help",
-        "Shows what you are looking at right now."
+        "What you are looking at right now."
       )
       .addField(
         config.prefix + "create [your trigger] - [your response]",
@@ -133,7 +133,7 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "ping",
-        "Tells you the bot's and Discord's API latency."
+        "Displays the bot and Discord API latency."
       )
       //.addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
