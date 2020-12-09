@@ -119,11 +119,11 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "create [your trigger] - [your response]",
-        "This command **creates a trigger.** Whenever a user sends a messages containing the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
+        "**Creates a trigger.** Whenever a user sends a messages containing the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
       )
       .addField(
         config.prefix + "list",
-        "Displays the server's **list of triggers**."
+        "Displays the server's **trigger list**."
       )
       .addField(
         config.prefix + "remove [index]",
@@ -133,7 +133,7 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "ping",
-        "Displays the bot and Discord API latency."
+        "Displays the latency of bot to the Discord's servers."
       )
       //.addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
