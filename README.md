@@ -6,7 +6,7 @@
 CuRe your FAQs with CuRe Bot!  
 CuRe Bot is a custom response bot for Discord designed with ease of use and simplicity in mind.  
 
-### [Invite](https://cure.jkm.sh/invite) - [Support Server](https://cure.jkm.sh/server) - [Upvote](https://top.gg/bot/762721168741761075/vote)  
+### [Invite](https://cure.jkm.sh/invite) - [Support Server](https://cure.jkm.sh/server) - [Upvote](https://top.gg/bot/592968118905733120/vote)  
 
 Prefix: `?`  
 
