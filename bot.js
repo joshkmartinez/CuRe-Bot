@@ -118,7 +118,7 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "create [your trigger] - [your response]",
-        "**Creates a trigger.** Whenever a user sends a messages containing the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
+        "**Creates a trigger.** Whenever a message contains the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
       )
       .addField(
         config.prefix + "list",
