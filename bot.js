@@ -46,7 +46,7 @@ statcord.on("post", (status) => {
 bot.on("message", async (message) => {
   if (message.author.bot) return;
   let args = message.content.split(" ");
-  let command = args[0];
+  const command = args[0];
   if (command == config.prefix + "stats") {
     try {
       statcord.postCommand("stats", message.author.id);
@@ -97,7 +97,7 @@ bot.on("message", async (message) => {
 bot.on("message", async (message) => {
   if (message.author.bot) return;
   let messageBody = message.content.split(" ");
-  let command = messageBody[0];
+  const command = messageBody[0];
 
   if (command == `${config.prefix}help`) {
     try {
@@ -273,7 +273,7 @@ bot.on("message", async (message) => {
   if (message.author.bot) return;
   const guild = message.guild.id;
   const args = message.content.split(" ");
-  let command = args[0];
+  const command = args[0];
   if (command == config.prefix + "remove" || command == config.prefix + "delete") {
     if (args[1] == null || isNaN(args[1])) {
       return message.channel.send(
