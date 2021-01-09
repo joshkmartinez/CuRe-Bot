@@ -3,6 +3,7 @@ require("./server")();
 require("dotenv").config();
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
+const blapi = require("blapi");
 const config = require("./config.json");
 const bot = new Discord.Client({ disableEveryone: true });
 const axios = require("axios");
@@ -20,9 +21,20 @@ const statcord = new Statcord.Client({
 });
 
 bot.on("ready", async () => {
-  console.log("Ready.");
   console.log("CuRe is now online in " + bot.guilds.cache.size + " guilds.");
+
   await statcord.autopost();
+
+  const botListAPIKeys = {
+    "top.gg": process.env.topgg_token,
+    "arcane-center.xyz": process.env.arcane_center_token,
+    "botlist.space": process.env.botlistspace_token,
+    "botsfordiscord.com": process.env.botsfordiscord_token,
+    "discord.bots.gg": process.env.discordbotsgg_token,
+    "discord.boats": process.env.discordboats_token,
+  };
+
+  blapi.handle(bot, botListAPIKeys, 60);
 
   bot.user
     .setActivity("for ?help", { type: "WATCHING" })
@@ -112,10 +124,7 @@ bot.on("message", async (message) => {
         "CuRe Bot is a ***Cu***stom ***Re***sponse Bot for Discord."
       )
 
-      .addField(
-        config.prefix + "help",
-        "What you are looking at right now."
-      )
+      .addField(config.prefix + "help", "What you are looking at right now.")
       .addField(
         config.prefix + "create [your trigger] - [your response]",
         "**Creates a trigger.** Whenever a message contains the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
@@ -274,7 +283,10 @@ bot.on("message", async (message) => {
   const guild = message.guild.id;
   const args = message.content.split(" ");
   const command = args[0];
-  if (command == config.prefix + "remove" || command == config.prefix + "delete") {
+  if (
+    command == config.prefix + "remove" ||
+    command == config.prefix + "delete"
+  ) {
     if (args[1] == null || isNaN(args[1])) {
       return message.channel.send(
         "Include a trigger index to remove.\nTo see the trigger list run `" +
@@ -297,9 +309,11 @@ bot.on("message", async (message) => {
         let before = response.data;
         let keys = Object.keys(response.data);
         if (args[1] > keys.length - 1 || args[1] < 0) {
-          return message.channel.send("Trigger index out of bounds.\nTo see the trigger list run `" +
-          config.prefix +
-          "list`.");
+          return message.channel.send(
+            "Trigger index out of bounds.\nTo see the trigger list run `" +
+              config.prefix +
+              "list`."
+          );
         }
         let remover = keys[args[1]];
         delete before[remover];

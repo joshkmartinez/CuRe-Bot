@@ -207,6 +207,13 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
+blapi@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/blapi/-/blapi-2.0.1.tgz#f313e362d4b4dcb00cc23455b03921dc2a421547"
+  integrity sha512-KdYSydzTPKJQIEjPvMT4iXQwu3GWmf48hjpeKtR6dj5IcmHGXCaS2vB9J+LShH4C0oz72sZrQefOyjbFD3jKQw==
+  dependencies:
+    node-fetch "^2.6.0"
+
 body-parser@1.19.0:
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.19.0.tgz#96b2709e57c9c4e09a6fd66a8fd979844f69f08a"
