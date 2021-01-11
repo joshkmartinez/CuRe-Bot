@@ -5,12 +5,11 @@
   "main": "bot.js",
   "scripts": {
     "dev": "nodemon bot.js",
-    "start": "node bot.js",
-    "forever:start": "forever start bot.js",
-    "forever:stop": "forever stop bot.js",
-    "forever:list": "forever list",
-    "forever:stopall": "forever stopall",
-    "forever:cleanlogs": "forever cleanlogs"
+    "start": "forever start bot.js",
+    "stop": "forever stop bot.js",
+    "list": "forever list",
+    "stopall": "forever stopall",
+    "cleanlogs": "forever cleanlogs"
   },
   "author": "Joshua Martinez",
   "license": "MIT",
