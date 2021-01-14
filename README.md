@@ -26,3 +26,5 @@ This was done with the following trigger and response:
 Trigger: "open a ticket"  
 Response: "You can open by running \`-ticket open help\`."  
 Bot command: ```?create open a ticket - You can open by running `-ticket open help`.```  
+
+<img src="https://botsfordiscord.com/api/bot/592968118905733120/widget">
