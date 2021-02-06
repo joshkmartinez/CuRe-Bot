@@ -32,7 +32,7 @@ bot.on("ready", async () => {
     "botsfordiscord.com": process.env.botsfordiscord_token,
     "discord.bots.gg": process.env.discordbotsgg_token,
     "discord.boats": process.env.discordboats_token,
-    "discordbotlist.com":process.env.discordbotlistcom_token,
+    "discordbotlist.com": process.env.discordbotlistcom_token,
   };
 
   blapi.handle(bot, botListAPIKeys, 60);
@@ -128,14 +128,18 @@ bot.on("message", async (message) => {
       .addField(config.prefix + "help", "What you are looking at right now.")
       .addField(
         config.prefix + "create [your trigger] - [your response]",
-        "**Creates a trigger.** Whenever a message contains the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by `-`"
+        "**Creates a trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n"
+      )
+      .addField(
+        config.prefix + "create [your trigger] - [your response]",
+        "**Creates a trigger.** Whenever a message contains the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by ` - `.\n"
       )
       .addField(
         config.prefix + "list",
         "Displays the server's **trigger list**."
       )
       .addField(
-        config.prefix + "remove [index]",
+        config.prefix + "remove [trigger index]",
         "**Deletes a trigger.**\nTo get the trigger's index, run `" +
           config.prefix +
           "list`."
@@ -290,9 +294,9 @@ bot.on("message", async (message) => {
   ) {
     if (args[1] == null || isNaN(args[1])) {
       return message.channel.send(
-        "Include a trigger index to remove.\nTo see the trigger list run `" +
+        "Error: Specify a trigger index to remove.\nCommand Usage: `?remove [trigger index]`\nTo see the trigger list run `" +
           config.prefix +
-          "list`."
+          "list`.\n\nRun `?help` for more information."
       );
     }
     if (checkManageMessagePerms(message)) {
@@ -329,9 +333,29 @@ bot.on("message", async (message) => {
 });
 
 const triggerCheck = async (message, triggers) => {
+  const messageContent = message.content.toLowerCase();
+
+  const contains = (testString, subString) => {
+    var subStringParts = subString.split("{*}");
+    var testRegex = new RegExp(subStringParts.join(".*"));
+    return testRegex.test(testString);
+  };
+
   for (i = 0; i < Object.keys(triggers).length; i++) {
-    let trigger = Object.keys(triggers)[i];
-    if (message.content.toLowerCase().includes(trigger.toLowerCase())) {
+    const trigger = Object.keys(triggers)[i];
+    if (trigger.includes("{*}")) {
+      if (contains(messageContent, trigger.toLowerCase())) {
+        return message.channel.send(triggers[trigger]);
+        //fetch word at index for use in response
+        /*const parsedTrigger = triggers[trigger].split(' ').join('').split("{$}")
+        const parsableMessage = messageContent.split(' ').join('').split("{$}")
+        return console.log(parsedTrigger)
+        const leading = parsableMessage[0]
+        const trailing = parsableMessage[1]*/
+      }
+    }
+    //traditional trigger check
+    else if (messageContent.includes(trigger.toLowerCase())) {
       try {
         await statcord.postCommand("RESPONSE", message.author.id);
       } catch (e) {
