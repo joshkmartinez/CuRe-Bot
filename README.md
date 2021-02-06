@@ -16,7 +16,7 @@ Commands:
   - This command creates a trigger. Whenever a user sends a message containing the "trigger" string, the bot will respond with the "response" string.
 - `?list`
   - Shows a list of the triggers and responses on the server.
-- `?remove [index]`
+- `?remove [trigger index]`
   - Deletes a trigger from the server. To get the trigger's index, use the `?list` command.
 - `?ping`
 
