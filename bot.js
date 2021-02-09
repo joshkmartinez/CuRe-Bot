@@ -125,22 +125,22 @@ bot.on("message", async (message) => {
         "CuRe Bot is a ***Cu***stom ***Re***sponse Bot for Discord."
       )
 
-      .addField(config.prefix + "help", "What you are looking at right now.")
       .addField(
-        config.prefix + "create [your trigger] - [your response]",
-        "**Creates a trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n"
+        config.prefix + "help",
+        "What you are looking at right now.\nNeed help using the bot? Join the [CuRe Bot Support Server](https://cure.jkm.sh/server)."
       )
       .addField(
-        config.prefix + "create [your trigger] - [your response]",
-        "**Creates a trigger.** Whenever a message contains the trigger string, the bot will respond with the response string. The trigger and response arguments are separated by ` - `.\n"
+        config.prefix + "create `your trigger here` - `your response here`",
+        "**Creates a message trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n"
       )
+
       .addField(
         config.prefix + "list",
         "Displays the server's **trigger list**."
       )
       .addField(
-        config.prefix + "remove [trigger index]",
-        "**Deletes a trigger.**\nTo get the trigger's index, run `" +
+        config.prefix + "remove `trigger index`",
+        "**Deletes a trigger.**\nTo get a trigger's index, run `" +
           config.prefix +
           "list`."
       )
