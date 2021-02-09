@@ -2,22 +2,23 @@
 
 ### **Cu**stom **Re**sponse Bot
 
-
 CuRe your FAQs with CuRe Bot!  
-CuRe Bot is a custom response bot for Discord designed with ease of use and simplicity in mind.  
+CuRe Bot is a custom response bot for Discord designed with ease of use and simplicity in mind.
 
-### [Invite](https://cure.jkm.sh/invite) - [Support Server](https://cure.jkm.sh/server) - [Upvote](https://top.gg/bot/592968118905733120/vote)  
+### [Invite](https://cure.jkm.sh/invite) - [Support Server](https://cure.jkm.sh/server) - [Upvote](https://top.gg/bot/592968118905733120/vote)
 
-Prefix: `?`  
+Prefix: `?`
 
 Commands:
+
 - `?help`
-- `?create [your trigger] - [your response]`
+  - Need help using the bot? Join the [CuRe Bot Support Server](https://cure.jkm.sh/server).
+- `?create [your trigger here] - [your response here]`
   - This command creates a trigger. Whenever a user sends a message containing the "trigger" string, the bot will respond with the "response" string.
 - `?list`
-  - Shows a list of the triggers and responses on the server.
+  - Displays the server's trigger and response list.
 - `?remove [trigger index]`
-  - Deletes a trigger from the server. To get the trigger's index, use the `?list` command.
+  - Deletes a trigger from the server. To get a trigger's index, use the `?list` command.
 - `?ping`
 
 Here is CuRe Bot in action!  
@@ -25,6 +26,4 @@ Here is CuRe Bot in action!
 This was done with the following trigger and response:  
 Trigger: "open a ticket"  
 Response: "You can open by running \`-ticket open help\`."  
-Bot command: ```?create open a ticket - You can open by running `-ticket open help`.```  
-
-<img src='https://infinitybotlist.com/bots/592968118905733120/widget?size=large'></img>
+Bot command: `` ?create open a ticket - You can open by running `-ticket open help`. ``
