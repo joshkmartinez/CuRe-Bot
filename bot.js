@@ -343,6 +343,9 @@ const triggerCheck = async (message, triggers) => {
 
   for (i = 0; i < Object.keys(triggers).length; i++) {
     const trigger = Object.keys(triggers)[i];
+    if (trigger.includes("{MESSAGE DELETE}")) {
+      await message.delete()
+    }
     if (trigger.includes("{*}")) {
       if (contains(messageContent, trigger.toLowerCase())) {
         return message.channel.send(triggers[trigger]);
