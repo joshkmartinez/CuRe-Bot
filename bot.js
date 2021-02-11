@@ -343,28 +343,28 @@ const triggerCheck = async (message, triggers) => {
 
   for (i = 0; i < Object.keys(triggers).length; i++) {
     const trigger = Object.keys(triggers)[i];
-    if (trigger.includes("{MESSAGE DELETE}")) {
-      await message.delete()
-    }
-    if (trigger.includes("{*}")) {
-      if (contains(messageContent, trigger.toLowerCase())) {
-        return message.channel.send(triggers[trigger]);
-        //fetch word at index for use in response
-        /*const parsedTrigger = triggers[trigger].split(' ').join('').split("{$}")
+    const parsedTrigger = trigger.replace("{MESSAGE DELETE}", "").toLowerCase();
+    if (
+      trigger.includes("{*}")
+        ? contains(messageContent, parsedTrigger)
+        : messageContent.includes(parsedTrigger)
+    ) {
+      try {
+        await statcord.postCommand("RESPONSE", message.author.id);
+      } catch (e) {
+        console.log("Failed to post command stats to statcord.");
+      }
+      await message.channel.send(triggers[trigger]);
+      if (trigger.includes("{MESSAGE DELETE}")) {
+        return message.delete();
+      }
+     
+      //fetch word at index for use in response
+      /*const parsedTrigger = triggers[trigger].split(' ').join('').split("{$}")
         const parsableMessage = messageContent.split(' ').join('').split("{$}")
         return console.log(parsedTrigger)
         const leading = parsableMessage[0]
         const trailing = parsableMessage[1]*/
-      }
-    }
-    //traditional trigger check
-    else if (messageContent.includes(trigger.toLowerCase())) {
-      try {
-        await statcord.postCommand("RESPONSE", message.author.id);
-      } catch (e) {
-        console.log("Failed to post command stats to statcord");
-      }
-      return message.channel.send(triggers[trigger]);
     }
   }
 };
