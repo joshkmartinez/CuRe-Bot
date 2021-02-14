@@ -5,11 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "dev": "nodemon bot.js",
-    "start": "forever start bot.js",
-    "stop": "forever stop bot.js",
-    "list": "forever list",
-    "stopall": "forever stopall",
-    "cleanlogs": "forever cleanlogs"
+    "start": "node bot.js"
   },
   "author": "Joshua Martinez",
   "license": "MIT",
@@ -23,7 +19,6 @@
     "statcord.js": "^3.1.4"
   },
   "devDependencies": {
-    "forever": "^3.0.4",
     "nodemon": "^2.0.7"
   }
 }
