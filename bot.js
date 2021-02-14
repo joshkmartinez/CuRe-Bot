@@ -341,6 +341,12 @@ const triggerCheck = async (message, triggers) => {
     return testRegex.test(testString);
   };
 
+  const checkTriggerDelete = (trigger, message) => {
+    if (trigger.includes("{MESSAGE DELETE}")) {
+      return message.delete();
+    }
+  };
+
   for (i = 0; i < Object.keys(triggers).length; i++) {
     const trigger = Object.keys(triggers)[i];
     const parsedTrigger = trigger.replace("{MESSAGE DELETE}", "").toLowerCase();
@@ -355,10 +361,8 @@ const triggerCheck = async (message, triggers) => {
         console.log("Failed to post command stats to statcord.");
       }
       await message.channel.send(triggers[trigger]);
-      if (trigger.includes("{MESSAGE DELETE}")) {
-        return message.delete();
-      }
-     
+      return checkTriggerDelete(trigger, message);
+
       //fetch word at index for use in response
       /*const parsedTrigger = triggers[trigger].split(' ').join('').split("{$}")
         const parsableMessage = messageContent.split(' ').join('').split("{$}")
