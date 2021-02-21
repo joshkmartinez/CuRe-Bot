@@ -342,14 +342,14 @@ const triggerCheck = async (message, triggers) => {
   };
 
   const checkTriggerDelete = (trigger, message) => {
-    if (trigger.includes("{MESSAGE DELETE}")) {
+    if (trigger.includes("{DELETE}")) {
       return message.delete();
     }
   };
 
   for (i = 0; i < Object.keys(triggers).length; i++) {
     const trigger = Object.keys(triggers)[i];
-    const parsedTrigger = trigger.replace("{MESSAGE DELETE}", "").toLowerCase();
+    const parsedTrigger = trigger.toLowerCase().replace("{delete}", "");
     if (
       trigger.includes("{*}")
         ? contains(messageContent, parsedTrigger)
@@ -360,7 +360,20 @@ const triggerCheck = async (message, triggers) => {
       } catch (e) {
         console.log("Failed to post command stats to statcord.");
       }
-      await message.channel.send(triggers[trigger]);
+
+      const response = triggers[trigger];
+      if (response.indexOf("{RANDOM}") == 0) {
+        const options = response
+          .slice("{RANDOM}".length + 1, response.length - 1)
+          .split(", ");
+
+        await message.channel.send(
+          options[Math.floor(Math.random() * options.length)]
+        ); //random response
+      } else {
+        await message.channel.send(response);
+      }
+
       return checkTriggerDelete(trigger, message);
 
       //fetch word at index for use in response
