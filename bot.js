@@ -56,16 +56,20 @@ statcord.on("post", (status) => {
   else console.error(status);
 });
 
+const statcordPost = async (cmd, message) => {
+  try {
+    return statcord.postCommand("cmd", message.author.id);
+  } catch (e) {
+    console.log("Failed to post command stats to statcord.");
+  }
+};
+
 bot.on("message", async (message) => {
   if (message.author.bot) return;
   let args = message.content.split(" ");
   const command = args[0];
   if (command == config.prefix + "stats") {
-    try {
-      statcord.postCommand("stats", message.author.id);
-    } catch (e) {
-      console.log("Failed to post command stats to statcord.");
-    }
+    statcordPost("stats", message);
     let guildNum = 0;
     let channelNum = 0;
     let memberNum = 0;
@@ -92,11 +96,7 @@ bot.on("message", async (message) => {
 bot.on("message", async (message) => {
   if (message.author.bot) return;
   if (message.content.includes(bot.user.toString())) {
-    try {
-      await statcord.postCommand("mentioned", message.author.id);
-    } catch (e) {
-      console.log("Failed to post command stats to statcord");
-    }
+    statcordPost("mentioned", message);
     return message.channel.send(
       "Hey there! My prefix is `" +
         config.prefix +
@@ -113,11 +113,7 @@ bot.on("message", async (message) => {
   const command = messageBody[0];
 
   if (command == `${config.prefix}help`) {
-    try {
-      await statcord.postCommand("help", message.author.id);
-    } catch (e) {
-      console.log("Failed to post command stats to statcord");
-    }
+    statcordPost("help", message);
     const embed = new Discord.MessageEmbed()
       .setColor("#2F3136")
       .setTitle("**CuRe Bot**")
@@ -164,16 +160,13 @@ bot.on("message", async (message) => {
 
     return message.channel.send(embed);
   } else if (command == config.prefix + "list") {
+    statcordPost("list", message);
     return message.channel.send(
       "View this server's triggers at the following link: https://cure.jkm.sh/triggers?guild=" +
         message.guild.id
     );
   } else if (command == `${config.prefix}ping`) {
-    try {
-      await statcord.postCommand("ping", message.author.id);
-    } catch (e) {
-      console.log("Failed to post command stats to statcord");
-    }
+    statcordPost("ping", message);
     const m = await message.channel.send("Pong 🏓");
     m.edit(
       `Pong 🏓\nBot latency is ${
@@ -198,11 +191,7 @@ bot.on("message", async (message) => {
     message.content.substring(0, config.prefix.length + "create".length) ==
     config.prefix + "create"
   ) {
-    try {
-      await statcord.postCommand("create", message.author.id);
-    } catch (e) {
-      console.log("Failed to post command stats to statcord");
-    }
+    statcordPost("create", message);
     let content = message.content
       .substring(config.prefix.length + "create".length + 1)
       .split(" - ");
@@ -302,11 +291,7 @@ bot.on("message", async (message) => {
     if (checkManageMessagePerms(message)) {
       return message.channel.send(permissionsError);
     }
-    try {
-      await statcord.postCommand("remove", message.author.id);
-    } catch (e) {
-      console.log("Failed to post command stats to statcord");
-    }
+    statcordPost("remove", message);
     //check if number and is in bounds
     axios
       .get(process.env.storage_service + guild)
@@ -343,7 +328,17 @@ const triggerCheck = async (message, triggers) => {
 
   const checkTriggerDelete = (trigger, message) => {
     if (trigger.includes("{DELETE}")) {
+      statcordPost("DELETE", message);
       return message.delete();
+    }
+  };
+
+  const parseResponse = (response, message) => {
+    if (response.includes("{AUTHOR}")) {
+      statcordPost("AUTHOR", message);
+      return response.split("{AUTHOR}").join(message.author);
+    } else {
+      return response;
     }
   };
 
@@ -355,23 +350,23 @@ const triggerCheck = async (message, triggers) => {
         ? contains(messageContent, parsedTrigger)
         : messageContent.includes(parsedTrigger)
     ) {
-      try {
-        await statcord.postCommand("RESPONSE", message.author.id);
-      } catch (e) {
-        console.log("Failed to post command stats to statcord.");
-      }
+      statcordPost("RESPONSE", message);
 
       const response = triggers[trigger];
       if (response.indexOf("{RANDOM}") == 0) {
+        statcordPost("RANDOM", message);
         const options = response
           .slice("{RANDOM}".length + 1, response.length - 1)
           .split(", ");
 
         await message.channel.send(
-          options[Math.floor(Math.random() * options.length)]
+          parseResponse(
+            options[Math.floor(Math.random() * options.length)],
+            message
+          )
         ); //random response
       } else {
-        await message.channel.send(response);
+        await message.channel.send(parseResponse(response, message));
       }
 
       return checkTriggerDelete(trigger, message);
