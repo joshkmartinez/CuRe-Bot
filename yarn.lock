@@ -1057,13 +1057,13 @@ signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
-statcord.js@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/statcord.js/-/statcord.js-3.1.5.tgz#2cce488e43db762e7a6500ef88a139da68cb0308"
-  integrity sha512-EWeIV9XeAgLZvMackkfvrc8VeLnh1hiyJanNnbG6PqxgR7azcLHugM6WFGy2m6VoTfIQ7/Zm0KvP3D3JPhQ79w==
+statcord.js@^3.1.6:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/statcord.js/-/statcord.js-3.1.6.tgz#fc9b76455c3dc6713118292ff5dede1619a3cd67"
+  integrity sha512-nL5SN4rRumGdGHAKdIk/YnZRzkfMbkAQS5QCEiUVa6C2NVXrMHiU3WWIyvIyoUN916vCqnmQx9zxVkA5pliy8w==
   dependencies:
     node-fetch "^2.6.0"
-    systeminformation "^4.26.9"
+    systeminformation "^5.3.1"
 
 "statuses@>= 1.5.0 < 2", statuses@~1.5.0:
   version "1.5.0"
@@ -1121,10 +1121,10 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-systeminformation@^4.26.9:
-  version "4.34.5"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.34.5.tgz#f2520697085736d9c3edf58ee9230c6aee1130f3"
-  integrity sha512-oFgpUeGc2BVTl9FPsdixzfcHkMg1llGUeA+flsZf7AM9HTQhWfcVrfHJEoWCq+mOqiSp4SCNrdSPFXJKYPDdYg==
+systeminformation@^5.3.1:
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.3.4.tgz#22d54e0c03e23472b87a7087342dc354647be25b"
+  integrity sha512-lMrSxwkDHjn9Ot0xJwnCcYJF1tFTsjqp5TRDVDiZ5QC39T99j3xelUfpiGeCbmMdiY7Nu6CUYMwdRLb2bgOm8g==
 
 term-size@^2.1.0:
   version "2.2.1"
