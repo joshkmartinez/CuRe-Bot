@@ -1057,10 +1057,10 @@ signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
-statcord.js@^3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/statcord.js/-/statcord.js-3.1.6.tgz#fc9b76455c3dc6713118292ff5dede1619a3cd67"
-  integrity sha512-nL5SN4rRumGdGHAKdIk/YnZRzkfMbkAQS5QCEiUVa6C2NVXrMHiU3WWIyvIyoUN916vCqnmQx9zxVkA5pliy8w==
+statcord.js@^3.1.7:
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/statcord.js/-/statcord.js-3.1.7.tgz#d2affa39f91916635f3670f8033f5394160976d8"
+  integrity sha512-8LtGM3TNMPCz1RHTAVy7tf8ZfWOCVqM9GpM1K+Koyu63jPlPZEDD+wU5mv1VG2ffG2WOfoUKr+nOIvf9ybvMmQ==
   dependencies:
     node-fetch "^2.6.0"
     systeminformation "^5.3.1"

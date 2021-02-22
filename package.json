@@ -16,7 +16,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "memory-cache": "^0.2.0",
-    "statcord.js": "^3.1.6"
+    "statcord.js": "^3.1.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
