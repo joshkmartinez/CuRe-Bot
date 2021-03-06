@@ -92,21 +92,6 @@ bot.on("message", async (message) => {
   }
 });
 
-// Check if the bot was tagged in the message
-bot.on("message", async (message) => {
-  if (message.author.bot) return;
-  if (message.content.includes(bot.user.toString())) {
-    statcordPost("mentioned", message);
-    return message.channel.send(
-      "Hey there! My prefix is `" +
-        config.prefix +
-        "`\nRun `" +
-        config.prefix +
-        "help` to see some of my commands!"
-    );
-  }
-});
-
 bot.on("message", async (message) => {
   if (message.author.bot) return;
   let messageBody = message.content.split(" ");
