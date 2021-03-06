@@ -66,38 +66,11 @@ const statcordPost = async (cmd, message) => {
 
 bot.on("message", async (message) => {
   if (message.author.bot) return;
-  let args = message.content.split(" ");
-  const command = args[0];
-  if (command == config.prefix + "stats") {
-    statcordPost("stats", message);
-    let guildNum = 0;
-    let channelNum = 0;
-    let memberNum = 0;
-    bot.guilds.cache.map((guild) => {
-      guildNum++;
-      guild.channels.cache.map((channel) => {
-        channelNum++;
-      });
-      memberNum += guild.memberCount;
-    });
-    await message.channel.send(
-      "I help **" +
-        memberNum +
-        " users** in **" +
-        channelNum +
-        " channels** of** " +
-        guildNum +
-        " servers!**"
-    );
-  }
-});
-
-bot.on("message", async (message) => {
-  if (message.author.bot) return;
   let messageBody = message.content.split(" ");
-  const command = messageBody[0];
+  if (message.content.substring(0, 1) !== "?") return;
+  const cmd = messageBody[0].substring(1);
 
-  if (command == `${config.prefix}help`) {
+  if (cmd == "help") {
     statcordPost("help", message);
     const embed = new Discord.MessageEmbed()
       .setColor("#2F3136")
@@ -144,19 +117,40 @@ bot.on("message", async (message) => {
       .setFooter("💙 CuRe Bot");
 
     return message.channel.send(embed);
-  } else if (command == config.prefix + "list") {
+  } else if (cmd == "list") {
     statcordPost("list", message);
     return message.channel.send(
       "View this server's triggers at the following link: https://cure.jkm.sh/triggers?guild=" +
         message.guild.id
     );
-  } else if (command == `${config.prefix}ping`) {
+  } else if (cmd == "ping") {
     statcordPost("ping", message);
     const m = await message.channel.send("Pong 🏓");
-    m.edit(
+    return m.edit(
       `Pong 🏓\nBot latency is ${
         m.createdTimestamp - message.createdTimestamp
       }ms. Discord API Latency is ${bot.ws.ping}ms`
+    );
+  } else if (cmd == "stats") {
+    statcordPost("stats", message);
+    let guildNum = 0;
+    let channelNum = 0;
+    let memberNum = 0;
+    bot.guilds.cache.map((guild) => {
+      guildNum++;
+      guild.channels.cache.map((channel) => {
+        channelNum++;
+      });
+      memberNum += guild.memberCount;
+    });
+    return message.channel.send(
+      "I help **" +
+        memberNum +
+        " users** in **" +
+        channelNum +
+        " channels** of** " +
+        guildNum +
+        " servers!**"
     );
   }
 });
