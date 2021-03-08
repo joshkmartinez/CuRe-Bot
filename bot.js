@@ -78,14 +78,9 @@ bot.on("message", async (message) => {
       .setDescription(
         "CuRe Bot is a ***Cu***stom ***Re***sponse Bot for Discord."
       )
-
-      .addField(
-        config.prefix + "help",
-        "What you are looking at right now.\nNeed help using the bot? Join the [CuRe Bot Support Server](https://cure.jkm.sh/server)."
-      )
       .addField(
         config.prefix + "create `your trigger here` - `your response here`",
-        "**Creates a message trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n"
+        "**Creates a message trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n_Want features like random responses, automatic trigger message deletion, author mentions in responses, wildcards, and more?_ Join the [bot support server](https://discord.gg/vhVPtYN6Dw) to get access to them!"
       )
 
       .addField(
@@ -104,8 +99,8 @@ bot.on("message", async (message) => {
       )
       //.addField(config.prefix + "stats", "Shows the bot's usage statistics.")
       .addField(
-        "Like CuRe?",
-        "[Consider upvoting CuRe](https://top.gg/bot/592968118905733120/vote)\n[Inviting the bot to your own server!](https://cure.jkm.sh/invite)\nOr [supporting development on patreon](https://www.patreon.com/jokur) 😃"
+        "Enjoy using CuRe?",
+        "[Upvote CuRe](https://top.gg/bot/592968118905733120/vote)\n[Bot Invite](https://cure.jkm.sh/invite)"
       )
 
       .addField(
