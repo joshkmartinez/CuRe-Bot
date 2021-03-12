@@ -65,7 +65,7 @@ const statcordPost = async (cmd, message) => {
 };
 
 bot.on("message", async (message) => {
-  if (message.author.bot) return;
+  if (message.author.bot || message.guild == null) return;
   let messageBody = message.content.split(" ");
   if (message.content.substring(0, 1) !== "?") return;
   const cmd = messageBody[0].substring(1);
@@ -80,9 +80,8 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "create `your trigger here` - `your response here`",
-        "**Creates a message trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n_Want features like random responses, automatic trigger message deletion, author mentions in responses, wildcards, and more?_ Join the [bot support server](https://discord.gg/vhVPtYN6Dw) to get access to them!"
+        "**Creates a message trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n_Want features like random responses, automatic trigger message deletion, author mentions in responses, wildcards, DM responses, and more?_ Join the [bot support server](https://discord.gg/vhVPtYN6Dw) to get access to them!"
       )
-
       .addField(
         config.prefix + "list",
         "Displays the server's **trigger list**."
@@ -159,7 +158,7 @@ const checkManageMessagePerms = (message) => {
 
 //add trigger
 bot.on("message", async (message) => {
-  if (message.author.bot) return;
+  if (message.author.bot || message.guild == null) return;
   const guild = message.guild.id;
   if (
     message.content.substring(0, config.prefix.length + "create".length) ==
@@ -247,7 +246,8 @@ async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
 
 //remove trigger cmd
 bot.on("message", async (message) => {
-  if (message.author.bot) return;
+  if (message.author.bot || message.guild == null) return;
+
   const guild = message.guild.id;
   const args = message.content.split(" ");
   const command = args[0];
@@ -315,6 +315,14 @@ const triggerCheck = async (message, triggers) => {
       return response;
     }
   };
+  //reply, dm
+  const sendTrigger = (message, trigger, response) => {
+    statcordPost("RESPONSE", message);
+    if (response.includes("{DM}")) {
+      return message.author.send(response.replace("{DM}", ""));
+    }
+    return message.channel.send(response);
+  };
 
   for (i = 0; i < Object.keys(triggers).length; i++) {
     const trigger = Object.keys(triggers)[i];
@@ -324,33 +332,28 @@ const triggerCheck = async (message, triggers) => {
         ? contains(messageContent, parsedTrigger)
         : messageContent.includes(parsedTrigger)
     ) {
-      statcordPost("RESPONSE", message);
-
       const response = triggers[trigger];
       if (response.indexOf("{RANDOM}") == 0) {
         statcordPost("RANDOM", message);
         const options = response
           .slice("{RANDOM}".length + 1, response.length - 1)
           .split(", ");
-
-        await message.channel.send(
+        //random response
+        await sendTrigger(
+          message,
+          trigger,
           parseResponse(
             options[Math.floor(Math.random() * options.length)],
             message
           )
-        ); //random response
-      } else {
-        await message.channel.send(parseResponse(response, message));
+        );
       }
-
+      //normal response
+      else {
+        await sendTrigger(message, trigger, parseResponse(response, message));
+      }
+      //check if trigger should be deleted
       return checkTriggerDelete(trigger, message);
-
-      //fetch word at index for use in response
-      /*const parsedTrigger = triggers[trigger].split(' ').join('').split("{$}")
-        const parsableMessage = messageContent.split(' ').join('').split("{$}")
-        return console.log(parsedTrigger)
-        const leading = parsableMessage[0]
-        const trailing = parsableMessage[1]*/
     }
   }
 };
@@ -358,15 +361,16 @@ const triggerCheck = async (message, triggers) => {
 //message trigger functionality
 if (enabled) {
   bot.on("message", async (message) => {
-    const guild = message.guild.id;
     //ignore if bot or if prefixed
     if (
       message.author.bot ||
-      message.content.substring(0, 1) == config.prefix
+      message.content.substring(0, 1) == config.prefix ||
+      message.guild == null
     ) {
       return;
     }
 
+    const guild = message.guild.id;
     if (cache.get(guild)) {
       return triggerCheck(message, cache.get(guild));
     } else {
