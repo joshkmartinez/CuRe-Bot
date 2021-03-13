@@ -319,6 +319,7 @@ const triggerCheck = async (message, triggers) => {
   const sendTrigger = (message, trigger, response) => {
     statcordPost("RESPONSE", message);
     if (response.includes("{DM}")) {
+      statcordPost("DM RESPONSE", message);
       return message.author.send(response.replace("{DM}", ""));
     }
     return message.channel.send(response);
