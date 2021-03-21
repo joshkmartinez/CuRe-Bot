@@ -11,6 +11,7 @@ var cache = require("memory-cache");
 bot.login(process.env.bot_token);
 
 const enabled = true;
+const STAGING = false;
 
 const permissionsError =
   "You need `MANAGE_MESSAGES` permissions in order to run this command.";
@@ -22,23 +23,24 @@ const statcord = new Statcord.Client({
 
 bot.on("ready", async () => {
   console.log("CuRe is now online in " + bot.guilds.cache.size + " guilds.");
+  if (!STAGING) {
+    await statcord.autopost();
 
-  await statcord.autopost();
+    const botListAPIKeys = {
+      "top.gg": process.env.topgg_token,
+      "arcane-center.xyz": process.env.arcane_center_token,
+      "botlist.space": process.env.botlistspace_token,
+      "botsfordiscord.com": process.env.botsfordiscord_token,
+      "discord.bots.gg": process.env.discordbotsgg_token,
+      "discord.boats": process.env.discordboats_token,
+      "discordbotlist.com": process.env.discordbotlistcom_token,
+    };
 
-  const botListAPIKeys = {
-    "top.gg": process.env.topgg_token,
-    "arcane-center.xyz": process.env.arcane_center_token,
-    "botlist.space": process.env.botlistspace_token,
-    "botsfordiscord.com": process.env.botsfordiscord_token,
-    "discord.bots.gg": process.env.discordbotsgg_token,
-    "discord.boats": process.env.discordboats_token,
-    "discordbotlist.com": process.env.discordbotlistcom_token,
-  };
-
-  blapi.handle(bot, botListAPIKeys, 60);
+    blapi.handle(bot, botListAPIKeys, 60);
+  }
 
   bot.user
-    .setActivity("for ?help", { type: "WATCHING" })
+    .setActivity("for "+config.prefix +"help", { type: "WATCHING" })
     .then((presence) =>
       console.log(
         `Activity set: ${presence.game ? presence.game.name : "none"}`
@@ -46,7 +48,7 @@ bot.on("ready", async () => {
     )
     .catch(console.error);
 });
-
+if (!STAGING) {
 statcord.on("autopost-start", () => {
   console.log("Started statcord autopost.");
 });
@@ -55,7 +57,7 @@ statcord.on("post", (status) => {
   if (!status) console.log("Posted to statcord.");
   else console.error(status);
 });
-
+}
 const statcordPost = async (cmd, message) => {
   try {
     return statcord.postCommand("cmd", message.author.id);
@@ -67,7 +69,7 @@ const statcordPost = async (cmd, message) => {
 bot.on("message", async (message) => {
   if (message.author.bot || message.guild == null) return;
   let messageBody = message.content.split(" ");
-  if (message.content.substring(0, 1) !== "?") return;
+  if (message.content.substring(0, 1) !== config.prefix) return;
   const cmd = messageBody[0].substring(1);
 
   if (cmd == "help") {
@@ -80,7 +82,7 @@ bot.on("message", async (message) => {
       )
       .addField(
         config.prefix + "create `your trigger here` - `your response here`",
-        "**Creates a message trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n_Want features like random responses, automatic trigger message deletion, author mentions in responses, wildcards, DM responses, and more?_ Join the [bot support server](https://discord.gg/vhVPtYN6Dw) to get access to them!"
+        "**Creates a message trigger.** Whenever a message contains the trigger string, the bot will respond with the response string.\nThe trigger and response arguments are separated by ` - `.\n_Want features like random responses, automatic trigger message deletion, author mentions in responses, wildcards, DM responses, delayed responses, and more?_ Join the [bot support server](https://discord.gg/vhVPtYN6Dw) to get access to them!"
       )
       .addField(
         config.prefix + "list",
@@ -258,9 +260,9 @@ bot.on("message", async (message) => {
   ) {
     if (args[1] == null || isNaN(args[1])) {
       return message.channel.send(
-        "Error: Specify a trigger index to remove.\nCommand Usage: `?remove [trigger index]`\nTo see the trigger list run `" +
+        "Error: Specify a trigger index to remove.\nCommand Usage: `"+config.prefix +"remove [trigger index]`\nTo see the trigger list run `" +
           config.prefix +
-          "list`.\n\nRun `?help` for more information."
+          "list`.\n\nRun `"+config.prefix +"help` for more information."
       );
     }
     if (checkManageMessagePerms(message)) {
@@ -304,7 +306,13 @@ const triggerCheck = async (message, triggers) => {
   const checkTriggerDelete = (trigger, message) => {
     if (trigger.includes("{DELETE}")) {
       statcordPost("DELETE", message);
-      return message.delete();
+      try {
+        message.delete();
+      } catch (e) {
+        message.reply(
+          "Error deleting message. Please contact an administrator to grant CuRe `MANAGE_MESSAGE` permissions in this channel."
+        );
+      }
     }
   };
 
@@ -319,11 +327,44 @@ const triggerCheck = async (message, triggers) => {
   //reply, dm
   const sendTrigger = (message, trigger, response) => {
     statcordPost("RESPONSE", message);
-    if (response.includes("{DM}")) {
-      statcordPost("DM RESPONSE", message);
-      return message.author.send(response.replace("{DM}", ""));
+
+    let delay = 0;
+    if (response.match(/{DELAY: [1-9]\d*}/)) {
+      const start = response.indexOf("{DELAY: ") + 8;
+      const end = response.indexOf("}");
+      const delay = new Number(response.substring(start, end));
     }
-    return message.channel.send(response);
+
+    const findDelay = (response) => {
+      if (response.match(/{DELAY: [1-9]\d*}/)) {
+        statcordPost("DM RESPONSE", message);
+        const start = response.indexOf("{DELAY: ") + 8;
+        const end = response.indexOf("}");
+        return Number(response.substring(start, end));
+      }
+      return 0;
+    };
+
+    const parseResponse = (response) => {
+      let newResponse = response.replace("{DM}", "");
+      newResponse =
+        response.substring(0, response.indexOf("{DELAY: ")) +
+        response.substring(response.indexOf("}") + 1);
+      return newResponse;
+    };
+    setTimeout(() => {
+      //DM response
+      try {
+        if (response.includes("{DM}")) {
+          statcordPost("DM RESPONSE", message);
+          return message.author.send(parseResponse(response));
+        }
+        //normal response
+        return message.channel.send(parseResponse(response));
+      } catch (e) {
+        console.log("Error sending trigger. Missing permissions.");
+      }
+    }, findDelay(response) * 1000);
   };
 
   for (i = 0; i < Object.keys(triggers).length; i++) {
