@@ -229,12 +229,13 @@ async function pushNewTriggerList(message, updatedList, removeTrigger = false) {
       if (removeTrigger) {
         addOrDelete = "removed";
       }
+      cache.del(guild);
       return await message.channel.send(
         "Trigger " +
           addOrDelete +
           " successfully. To see the new trigger list run `" +
           config.prefix +
-          "list`.\nIt will take up to 45 seconds for the updated trigger list to take effect."
+          "list`.\nIt can take up to 30 seconds for the updated trigger list to take effect."
       );
     })
     .catch(async function (error) {
@@ -379,7 +380,7 @@ if (enabled) {
       await axios
         .get(process.env.storage_service + guild)
         .then(async function (response) {
-          cache.put(guild, response.data, 45000);
+          cache.put(guild, response.data, 60000);
           return triggerCheck(message, cache.get(guild));
         })
         .catch(async function (error) {
