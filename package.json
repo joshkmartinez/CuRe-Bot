@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "blapi": "^2.0.1",
-    "discord.js": "^12.5.2",
+    "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "memory-cache": "^0.2.0",
