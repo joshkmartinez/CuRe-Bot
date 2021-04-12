@@ -107,12 +107,12 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.1.0.tgz#30fa40c9e7fe07dbc895678cd287024dea241dd9"
   integrity sha512-1Yj8h9Q+QDF5FzhMs/c9+6UntbD5MkRfRwac8DoEm9ZfUBZ7tZ55YcGVAzEe4bXsdQHEk+s9S5wsOKVdZrw0tQ==
 
-blapi@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/blapi/-/blapi-2.0.1.tgz#f313e362d4b4dcb00cc23455b03921dc2a421547"
-  integrity sha512-KdYSydzTPKJQIEjPvMT4iXQwu3GWmf48hjpeKtR6dj5IcmHGXCaS2vB9J+LShH4C0oz72sZrQefOyjbFD3jKQw==
+blapi@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/blapi/-/blapi-2.1.0.tgz#422f93f285a4dddd39c3380319bf4aefcf12c7b3"
+  integrity sha512-ngmTXCh8gyqDKtEuyeuHsXFL2pEKZG2MkO4RQE2Q48CL61BjrpxeLhT/CgBWVmetR+WHf4xbIJPkCSW8RUdqLg==
   dependencies:
-    node-fetch "^2.6.0"
+    centra "^2.4.2"
 
 body-parser@1.19.0:
   version "1.19.0"
@@ -181,6 +181,11 @@ camelcase@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
+
+centra@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/centra/-/centra-2.4.2.tgz#3bad51dbca2250dbecad84598dc7184973f4c4a9"
+  integrity sha512-f1RaP0V1HqVNEXfLfjNBthB2yy3KnSGnPCnOPCFLUk9e/Z4rNJ8nBaJNnghflnp88mi1IT8mfmW+HlMS1/H+bg==
 
 chalk@^3.0.0:
   version "3.0.0"
