@@ -11,7 +11,7 @@ const statcord = new Statcord.ShardingClient({
     manager
 });
 
-manager.spawn(3);
+manager.spawn(2);
 
 manager.on("shardCreate", (shard) => {
     console.log(`Shard ${shard.id} launched`);
