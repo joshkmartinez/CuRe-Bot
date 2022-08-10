@@ -1,5 +1,3 @@
-require("./server")();
-
 require("dotenv").config();
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
@@ -16,51 +14,48 @@ const STAGING = false;
 const permissionsError =
   "You need `MANAGE_MESSAGES` permissions in order to run this command.";
 
-const statcord = new Statcord.Client({
-  key: process.env.statcord,
-  client: bot,
+bot.on("ready", () => {
+  console.log(`Shard ${bot.shard.ids} ready (${bot.guilds.cache.size} guilds)`);
+
+  const botListAPIKeys = {
+    "top.gg": process.env.topgg_token,
+    //'botlist.space': process.env.botlistspace_token,
+    //'botsfordiscord.com': process.env.botsfordiscord_token,
+    "discord.bots.gg": process.env.discordbotsgg_token,
+    "discord.boats": process.env.discordboats_token,
+    "discordbotlist.scom": process.env.discordbotlistcom_token,
+  };
+
+  //post stats every hour
+  setInterval(() => {
+    bot.shard
+      .fetchClientValues("guilds.cache.size")
+      .then((shards) => {
+        const guildCount = shards.reduce((x, y) => x + y);
+        const shardCount = shards.length;
+        blapi.manualPost(
+          guildCount,
+          bot.user.id,
+          botListAPIKeys,
+          null,
+          shardCount,
+          null
+        );
+      })
+      .catch((err) => {
+        //stats will get posted from last shard
+        if (err.name.includes("SHARDING_IN_PROCESS")) {
+          return;
+        }
+        console.error(err);
+      });
+  }, 3600000);
 });
 
-bot.on("ready", async () => {
-  console.log("CuRe is now online in " + bot.guilds.cache.size + " guilds.");
-  if (!STAGING) {
-    await statcord.autopost();
-
-    const botListAPIKeys = {
-      "top.gg": process.env.topgg_token,
-      "arcane-center.xyz": process.env.arcane_center_token,
-      "botlist.space": process.env.botlistspace_token,
-      "botsfordiscord.com": process.env.botsfordiscord_token,
-      "discord.bots.gg": process.env.discordbotsgg_token,
-      "discord.boats": process.env.discordboats_token,
-      "discordbotlist.com": process.env.discordbotlistcom_token,
-    };
-
-    blapi.handle(bot, botListAPIKeys, 60);
-  }
-
-  bot.user
-    .setActivity("for "+config.prefix +"help", { type: "WATCHING" })
-    .then((presence) =>
-      console.log(
-        `Activity set: ${presence.game ? presence.game.name : "none"}`
-      )
-    )
-    .catch(console.error);
-});
-if (!STAGING) {
-statcord.on("autopost-start", () => {
-  console.log("Started statcord autopost.");
-});
-
-statcord.on("post", (status) => {
-  if (!status) console.log("Posted to statcord.");
-  else console.error(status);
-});
-}
 const statcordPost = async (cmd, message) => {
   try {
-    return statcord.postCommand("cmd", message.author.id);
+   
+     Statcord.ShardingClient.postCommand(cmd, message.author.id, bot);
   } catch (e) {
     console.log("Failed to post command stats to statcord.");
   }
